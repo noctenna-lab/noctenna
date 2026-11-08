@@ -1,6 +1,7 @@
 ![Noctenna. Wall Street sleeps. Your liquidation doesn't.](site/public/og.jpg)
 
 [![CI](https://github.com/noctenna-lab/noctenna/actions/workflows/ci.yml/badge.svg)](https://github.com/noctenna-lab/noctenna/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/noctenna?color=6a2cff)](https://www.npmjs.com/package/noctenna)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-6a2cff)](LICENSE)
 ![Node.js 22.12 or newer](https://img.shields.io/badge/node-22.12%2B-6a2cff)
 
@@ -30,16 +31,13 @@ You bring the model: an API key for OpenAI, Anthropic, Google, OpenRouter or any
 
 ## Install
 
-Node.js 22.12 or newer. Until the npm release, install from source:
+Node.js 22.12 or newer.
 
 ```sh
-git clone https://github.com/noctenna-lab/noctenna.git
-cd noctenna
-npm install   # also builds dist/
-npm link      # puts `noctenna` on your PATH
+npm install -g noctenna
 ```
 
-To update, run `git pull && npm install` in the same folder. To work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md).
+To build it from source instead, or to work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Set up
 

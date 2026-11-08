@@ -1,6 +1,7 @@
 ![Noctenna. Wall Street sleeps. Your liquidation doesn't.](site/public/og.jpg)
 
 [![CI](https://github.com/noctenna-lab/noctenna/actions/workflows/ci.yml/badge.svg)](https://github.com/noctenna-lab/noctenna/actions/workflows/ci.yml)
+[![Website: noctenna.xyz](https://img.shields.io/badge/web-noctenna.xyz-6a2cff)](https://noctenna.xyz)
 [![npm](https://img.shields.io/npm/v/noctenna?color=6a2cff)](https://www.npmjs.com/package/noctenna)
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-6a2cff)](LICENSE)
 ![Node.js 22.12 or newer](https://img.shields.io/badge/node-22.12%2B-6a2cff)

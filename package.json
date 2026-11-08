@@ -1,0 +1,60 @@
+{
+  "name": "noctenna",
+  "version": "0.1.0",
+  "description": "An open-source AI agent for Robinhood Chain: swaps, new launches, launch checks, perps on Arcus and Lighter, reopen watch, bridging. Your keys stay on your computer.",
+  "keywords": [
+    "robinhood-chain",
+    "ai-agent",
+    "mcp",
+    "mcp-server",
+    "goose",
+    "defi",
+    "perpetuals",
+    "wallet"
+  ],
+  "homepage": "https://github.com/noctenna-lab/noctenna#readme",
+  "bugs": {
+    "url": "https://github.com/noctenna-lab/noctenna/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noctenna-lab/noctenna.git"
+  },
+  "license": "MIT",
+  "author": "Noctenna",
+  "type": "module",
+  "bin": {
+    "noctenna": "dist/cli/main.js"
+  },
+  "files": [
+    "dist",
+    "profile",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:fork": "FORK=1 vitest run test/fork",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@napi-rs/keyring": "2.1.2",
+    "@noble/curves": "2.4.0",
+    "viem": "2.57.16",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "prettier": "3.9.10",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  }
+}

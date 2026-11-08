@@ -1,0 +1,11 @@
+# Generated tables, translations, fixtures and vendored files keep their own layout.
+package-lock.json
+site/package-lock.json
+site/index.html
+site/src/i18n.js
+site/src/gaps.js
+src/modules/perps/gaps.ts
+test/**/fixtures/
+test/swap/verified/
+profile/
+*.md

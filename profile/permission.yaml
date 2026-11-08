@@ -1,0 +1,10 @@
+# Written by `noctenna` on every start from the tools the server has. Reads and prepares run without asking;
+# execute, the only tool that sends anything, always asks; a tool not listed here asks too (GOOSE_MODE: approve).
+user:
+  always_allow:
+{{always_allow}}
+  ask_before:
+    - noctenna__execute
+  # Goose adds load_skill to every session; it would pull instructions from skill folders on this computer.
+  never_allow:
+    - load_skill

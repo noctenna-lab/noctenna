@@ -1,0 +1,22 @@
+{
+ "code": 200,
+ "entries": [
+  {
+   "rank": 1,
+   "l1_address": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+   "account_value": 13776120.213393,
+   "pnl": -32977.48408,
+   "roi": -0.2388098397336614,
+   "volume": 20924685.006097,
+   "streak": 131,
+   "longest_streak": 131,
+   "net_position": 14342473.251242,
+   "biggest_position_value": 1533510.567085,
+   "biggest_position_asset": "SNDK",
+   "long_percentage": 4.9,
+   "short_percentage": 95.1
+  }
+ ],
+ "total": 49565,
+ "updated_at": 1794110400
+}

@@ -1,0 +1,246 @@
+{
+ "markets": [
+  {
+   "marketDisplayName": "BTC-USD",
+   "fullAssetName": "Bitcoin",
+   "marketId": 1,
+   "status": "ONLINE",
+   "baseAsset": "BTC",
+   "quoteAsset": "USD",
+   "tickSize": "0.1",
+   "stepSize": "0.00000001",
+   "tickTiers": [
+    {
+     "upToPrice": "500000",
+     "tick": "0.1"
+    },
+    {
+     "upToPrice": "1000000",
+     "tick": "0.2"
+    },
+    {
+     "upToPrice": "2000000",
+     "tick": "0.5"
+    },
+    {
+     "upToPrice": "5000000",
+     "tick": "1"
+    },
+    {
+     "upToPrice": "10000000",
+     "tick": "2"
+    },
+    {
+     "tick": "5"
+    }
+   ],
+   "minOrderNotional": "5",
+   "minOrderSize": "0.0001",
+   "maxOrderSize": "10000",
+   "oraclePrice": "75804.2",
+   "markPrice": "75826.1",
+   "lastTradePrice": "75825.8",
+   "fundingRate": "0.0000125",
+   "nextFundingRate": "0.0000125",
+   "nextFundingAt": 1794114000,
+   "priceChange24h": "0.0007",
+   "volume24h": "162.49",
+   "volume24hNotional": "12669328.1",
+   "high24h": "76140.2",
+   "low24h": "75475.7",
+   "trades24h": 10687,
+   "openInterest": "200.99099739",
+   "openInterestCapNotional": null,
+   "liquidationFeePpm": 2500,
+   "initialMarginFraction": "0.025",
+   "maintenanceMarginFraction": "0.016667",
+   "offHoursInitialMarginFraction": "0.025",
+   "regularTradingHours": null,
+   "isOutsideRth": false,
+   "currentSettlementPrice": null,
+   "upperTradingBound": null,
+   "lowerTradingBound": null,
+   "nextUpperTradingBound": null,
+   "nextLowerTradingBound": null,
+   "isUpperInExpansionZone": null,
+   "isLowerInExpansionZone": null,
+   "upperZoneEnteredAt": null,
+   "upperExpectedExpansionAt": null,
+   "lowerZoneEnteredAt": null,
+   "lowerExpectedExpansionAt": null,
+   "type": "PERPETUAL",
+   "category": "CRYPTO",
+   "addedTimestamp": 1778786860,
+   "assetResolution": "10000000000",
+   "pythId": "1",
+   "baseMakerFeePpm": 150,
+   "baseTakerFeePpm": 450,
+   "hasCustomFeeSchedule": false,
+   "effectiveMakerFeePpm": 150,
+   "effectiveTakerFeePpm": 450
+  },
+  {
+   "marketDisplayName": "ETH-USD",
+   "fullAssetName": "Ethereum",
+   "marketId": 2,
+   "status": "ONLINE",
+   "baseAsset": "ETH",
+   "quoteAsset": "USD",
+   "tickSize": "0.01",
+   "stepSize": "0.0000001",
+   "tickTiers": [
+    {
+     "upToPrice": "10000",
+     "tick": "0.01"
+    },
+    {
+     "upToPrice": "20000",
+     "tick": "0.02"
+    },
+    {
+     "upToPrice": "50000",
+     "tick": "0.05"
+    },
+    {
+     "upToPrice": "100000",
+     "tick": "0.1"
+    },
+    {
+     "upToPrice": "200000",
+     "tick": "0.2"
+    },
+    {
+     "tick": "0.5"
+    }
+   ],
+   "minOrderNotional": "5",
+   "minOrderSize": "0.001",
+   "maxOrderSize": "100000",
+   "oraclePrice": "2233.29",
+   "markPrice": "2234.27",
+   "lastTradePrice": "2234.32",
+   "fundingRate": "0.0000125",
+   "nextFundingRate": "0.0000125",
+   "nextFundingAt": 1794114000,
+   "priceChange24h": "-0.0029",
+   "volume24h": "1687.7",
+   "volume24hNotional": "3782022.97",
+   "high24h": "2248.48",
+   "low24h": "2220",
+   "trades24h": 3279,
+   "openInterest": "1928.8951856",
+   "openInterestCapNotional": null,
+   "liquidationFeePpm": 4000,
+   "initialMarginFraction": "0.04",
+   "maintenanceMarginFraction": "0.026667",
+   "offHoursInitialMarginFraction": "0.04",
+   "regularTradingHours": null,
+   "isOutsideRth": false,
+   "currentSettlementPrice": null,
+   "upperTradingBound": null,
+   "lowerTradingBound": null,
+   "nextUpperTradingBound": null,
+   "nextLowerTradingBound": null,
+   "isUpperInExpansionZone": null,
+   "isLowerInExpansionZone": null,
+   "upperZoneEnteredAt": null,
+   "upperExpectedExpansionAt": null,
+   "lowerZoneEnteredAt": null,
+   "lowerExpectedExpansionAt": null,
+   "type": "PERPETUAL",
+   "category": "CRYPTO",
+   "addedTimestamp": 1778786860,
+   "assetResolution": "10000000000",
+   "pythId": "2",
+   "baseMakerFeePpm": 150,
+   "baseTakerFeePpm": 450,
+   "hasCustomFeeSchedule": false,
+   "effectiveMakerFeePpm": 150,
+   "effectiveTakerFeePpm": 450
+  },
+  {
+   "marketDisplayName": "AMD-USD",
+   "fullAssetName": "Advanced Micro Devices",
+   "marketId": 9,
+   "status": "ONLINE",
+   "baseAsset": "AMD",
+   "quoteAsset": "USD",
+   "tickSize": "0.01",
+   "stepSize": "0.0000001",
+   "tickTiers": [
+    {
+     "upToPrice": "5000",
+     "tick": "0.01"
+    },
+    {
+     "upToPrice": "10000",
+     "tick": "0.02"
+    },
+    {
+     "upToPrice": "20000",
+     "tick": "0.05"
+    },
+    {
+     "upToPrice": "50000",
+     "tick": "0.1"
+    },
+    {
+     "upToPrice": "100000",
+     "tick": "0.2"
+    },
+    {
+     "tick": "0.5"
+    }
+   ],
+   "minOrderNotional": "5",
+   "minOrderSize": "0.01",
+   "maxOrderSize": "100000",
+   "oraclePrice": "445.5",
+   "markPrice": "445.53",
+   "lastTradePrice": "445.61",
+   "fundingRate": "0.00000511574074074",
+   "nextFundingRate": "0.00000474537037037",
+   "nextFundingAt": 1794114000,
+   "priceChange24h": "-0.0005",
+   "volume24h": "6251.95",
+   "volume24hNotional": "2792317.59",
+   "high24h": "450.69",
+   "low24h": "444.73",
+   "trades24h": 16880,
+   "openInterest": "904.8302923",
+   "openInterestCapNotional": "4000000",
+   "liquidationFeePpm": 10000,
+   "initialMarginFraction": "0.1",
+   "maintenanceMarginFraction": "0.066667",
+   "offHoursInitialMarginFraction": "0.15",
+   "regularTradingHours": {
+    "startSecondsOfDay": 14400,
+    "endSecondsOfDay": 72000,
+    "timezone": "America/New_York",
+    "isOvernight": false
+   },
+   "isOutsideRth": true,
+   "currentSettlementPrice": "447.57",
+   "upperTradingBound": "469.94",
+   "lowerTradingBound": "425.2",
+   "nextUpperTradingBound": "492.32",
+   "nextLowerTradingBound": "402.82",
+   "isUpperInExpansionZone": false,
+   "isLowerInExpansionZone": false,
+   "upperZoneEnteredAt": null,
+   "upperExpectedExpansionAt": null,
+   "lowerZoneEnteredAt": null,
+   "lowerExpectedExpansionAt": null,
+   "type": "PERPETUAL",
+   "category": "EQUITIES",
+   "addedTimestamp": 1778786860,
+   "assetResolution": "10000000000",
+   "pythId": "949",
+   "baseMakerFeePpm": 150,
+   "baseTakerFeePpm": 450,
+   "hasCustomFeeSchedule": true,
+   "effectiveMakerFeePpm": 0,
+   "effectiveTakerFeePpm": 225
+  }
+ ]
+}

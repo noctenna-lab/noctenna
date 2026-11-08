@@ -1,0 +1,140 @@
+{
+ "chains": [
+  {
+   "id": 4663,
+   "name": "robinhood",
+   "displayName": "Robinhood Chain",
+   "vmType": "evm",
+   "disabled": false,
+   "currency": {
+    "id": "eth",
+    "symbol": "ETH",
+    "name": "Ether",
+    "address": "0x0000000000000000000000000000000000000000",
+    "decimals": 18,
+    "supportsBridging": true
+   },
+   "erc20Currencies": [
+    {
+     "id": "usdg",
+     "symbol": "USDG",
+     "name": "Global Dollar",
+     "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+     "decimals": 6,
+     "supportsBridging": true,
+     "supportsPermit": true,
+     "withdrawalFee": 2,
+     "depositFee": 0,
+     "surgeEnabled": false
+    }
+   ],
+   "protocol": {
+    "v2": {
+     "chainId": "robinhood",
+     "depository": "0x4cd00e387622c35bddb9b4c962c136462338bc31"
+    }
+   }
+  },
+  {
+   "id": 8453,
+   "name": "base",
+   "displayName": "Base",
+   "vmType": "evm",
+   "disabled": false,
+   "currency": {
+    "id": "eth",
+    "symbol": "ETH",
+    "name": "Ether",
+    "address": "0x0000000000000000000000000000000000000000",
+    "decimals": 18,
+    "supportsBridging": true
+   },
+   "erc20Currencies": [
+    {
+     "id": "btc",
+     "symbol": "cbBTC",
+     "name": "Coinbase Wrapped BTC",
+     "address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+     "decimals": 8,
+     "supportsBridging": true,
+     "withdrawalFee": 5,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "weth",
+     "symbol": "WETH",
+     "name": "Wrapped Ether",
+     "address": "0x4200000000000000000000000000000000000006",
+     "decimals": 18,
+     "supportsBridging": true,
+     "withdrawalFee": 1,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "usdt",
+     "symbol": "USDT",
+     "name": "Tether USD",
+     "address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+     "decimals": 6,
+     "supportsBridging": true,
+     "withdrawalFee": 40,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "usdc",
+     "symbol": "USDC",
+     "name": "USD Coin",
+     "address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+     "decimals": 6,
+     "supportsBridging": true,
+     "supportsPermit": true,
+     "withdrawalFee": 1,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "sol",
+     "symbol": "SOL",
+     "name": "Solana",
+     "address": "0x311935cd80b76769bf2ecc9d8ab7635b2139cf82",
+     "decimals": 9,
+     "supportsBridging": true,
+     "withdrawalFee": 10,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "degen",
+     "symbol": "DEGEN",
+     "name": "Degen",
+     "address": "0x4ed4e862860bed51a9570b96d89af5e1b0efefed",
+     "decimals": 18,
+     "supportsBridging": false,
+     "withdrawalFee": 0,
+     "depositFee": 0,
+     "surgeEnabled": false
+    },
+    {
+     "id": "ousd",
+     "symbol": "OUSD",
+     "name": "OpenUSD",
+     "address": "0xb2000000000000000000002feb517dfec7415344",
+     "decimals": 6,
+     "supportsBridging": true,
+     "withdrawalFee": 1,
+     "depositFee": 0,
+     "surgeEnabled": false
+    }
+   ],
+   "protocol": {
+    "v2": {
+     "chainId": "base",
+     "depository": "0x4cd00e387622c35bddb9b4c962c136462338bc31"
+    }
+   }
+  }
+ ]
+}

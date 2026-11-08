@@ -1,0 +1,33 @@
+# Noctenna's Goose profile. `noctenna` writes it into its own directory (GOOSE_PATH_ROOT) on every start, from the
+# choices saved by `noctenna setup`, so it never touches a Goose setup of the user's own.
+active_provider: {{provider}}
+providers:
+  {{provider}}:
+    enabled: true
+    model: {{model}}
+    configured: true
+{{host}}
+# Every tool call needs the user's approval unless permission.yaml allows it, and execute is never allowed there.
+GOOSE_MODE: approve
+GOOSE_TELEMETRY_ENABLED: false
+GOOSE_DISABLE_SESSION_NAMING: true
+# Goose starts with --no-profile and the noctenna server as its only extension. These entries keep every built-in
+# off as well, should anyone start Goose on this directory by hand.
+extensions:
+  developer: { enabled: false, type: platform, name: developer, description: "" }
+  analyze: { enabled: false, type: platform, name: analyze, description: "" }
+  apps: { enabled: false, type: platform, name: apps, description: "" }
+  chatrecall: { enabled: false, type: platform, name: chatrecall, description: "" }
+  code_execution: { enabled: false, type: platform, name: code_execution, description: "" }
+  extensionmanager: { enabled: false, type: platform, name: extensionmanager, description: "" }
+  scheduler: { enabled: false, type: platform, name: scheduler, description: "" }
+  skills: { enabled: false, type: platform, name: skills, description: "" }
+  summarize: { enabled: false, type: platform, name: summarize, description: "" }
+  summon: { enabled: false, type: platform, name: summon, description: "" }
+  todo: { enabled: false, type: platform, name: todo, description: "" }
+  tom: { enabled: false, type: platform, name: tom, description: "" }
+  computercontroller: { enabled: false, type: builtin, name: computercontroller, description: "" }
+  memory: { enabled: false, type: builtin, name: memory, description: "" }
+  autovisualiser: { enabled: false, type: builtin, name: autovisualiser, description: "" }
+  peekaboo: { enabled: false, type: builtin, name: peekaboo, description: "" }
+  tutorial: { enabled: false, type: builtin, name: tutorial, description: "" }

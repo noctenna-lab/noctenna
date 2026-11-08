@@ -30,13 +30,16 @@ You bring the model: an API key for OpenAI, Anthropic, Google, OpenRouter or any
 
 ## Install
 
-Node.js 22.12 or newer.
+Node.js 22.12 or newer. Until the npm release, install from source:
 
 ```sh
-npm install -g github:noctenna-lab/noctenna
+git clone https://github.com/noctenna-lab/noctenna.git
+cd noctenna
+npm install   # also builds dist/
+npm link      # puts `noctenna` on your PATH
 ```
 
-npm builds it from source as it installs. To work on the code instead, see [CONTRIBUTING.md](CONTRIBUTING.md).
+To update, run `git pull && npm install` in the same folder. To work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Set up
 

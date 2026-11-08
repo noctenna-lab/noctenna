@@ -1,0 +1,74 @@
+name: Bug report
+description: Something in Noctenna does not work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Never paste a private key, a seed phrase or an API key, here or anywhere else. Noctenna never needs them to debug a problem.
+        For a vulnerability, use [private reporting](https://github.com/noctenna-lab/noctenna/security/advisories/new) instead of an issue.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you asked for or ran, and what Noctenna did.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. noctenna network testnet
+        2. ...
+  - type: input
+    id: version
+    attributes:
+      label: Noctenna version
+      description: The output of `noctenna --version`.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did you run it?
+      options:
+        - noctenna (the terminal agent)
+        - noctenna mcp, inside another app
+        - A noctenna command (setup, wallet, limit, network)
+    validations:
+      required: true
+  - type: dropdown
+    id: network
+    attributes:
+      label: Network
+      options:
+        - Mainnet (4663)
+        - Testnet (46630)
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: OS and Node.js version
+      placeholder: macOS 15, Node.js 22.12
+  - type: textarea
+    id: output
+    attributes:
+      label: Output or error message
+      description: Copy it as text. Remove addresses you would rather keep private.
+      render: text
+  - type: checkboxes
+    id: private
+    attributes:
+      label: Before you send it
+      options:
+        - label: This report contains no private key, seed phrase or API key.
+          required: true

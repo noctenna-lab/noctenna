@@ -10,6 +10,7 @@ import { NETWORKS } from '../core/chain.js'
 import { loadConfig, saveConfig, setNetwork } from '../core/config.js'
 import { writesOpen } from '../core/launch.js'
 import { startServer } from '../core/server.js'
+import type { Network } from '../core/types.js'
 import { createWallet, exportKey, getAddress, importWallet, secretDelete, secretSet } from '../core/wallet.js'
 import {
   gooseRoot,
@@ -38,10 +39,52 @@ const USAGE = `noctenna ${version}: an AI agent for Robinhood Chain. Information
   noctenna limit <usd>        set the daily spending limit in USD
   noctenna network <name>     testnet or mainnet`
 
+const lockNote = (network: Network) => (writesOpen(network) ? '' : ', read-only until the token launch')
+
 const welcome = () => {
   const { network } = loadConfig()
-  const lock = writesOpen(network) ? '' : ', read-only until the token launch'
-  console.log(`Noctenna ${version} on ${NETWORKS[network].label}${lock}. Information only, not financial advice.`)
+  console.log(
+    `Noctenna ${version} on ${NETWORKS[network].label}${lockNote(network)}. Information only, not financial advice.`,
+  )
+}
+
+// The name in block letters (FIGlet's ANSI Shadow), shown when the agent starts in a terminal wide enough for it
+const WORDMARK = [
+  '███╗   ██╗ ██████╗  ██████╗████████╗███████╗███╗   ██╗███╗   ██╗ █████╗ ',
+  '████╗  ██║██╔═══██╗██╔════╝╚══██╔══╝██╔════╝████╗  ██║████╗  ██║██╔══██╗',
+  '██╔██╗ ██║██║   ██║██║        ██║   █████╗  ██╔██╗ ██║██╔██╗ ██║███████║',
+  '██║╚██╗██║██║   ██║██║        ██║   ██╔══╝  ██║╚██╗██║██║╚██╗██║██╔══██║',
+  '██║ ╚████║╚██████╔╝╚██████╗   ██║   ███████╗██║ ╚████║██║ ╚████║██║  ██║',
+  '╚═╝  ╚═══╝ ╚═════╝  ╚═════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚═╝  ╚═╝',
+]
+
+// The letters run from the brand violet #6a2bff to lilac #c4b0ff and their box-drawing edges stay deep violet, like a
+// shadow. Colour is 24-bit where the terminal declares it (COLORTERM), the nearest of the 256 standard colours
+// elsewhere and off under NO_COLOR. A terminal narrower than the name gets the one-line welcome instead.
+export function banner(network: Network, columns = process.stdout.columns ?? 0, env = process.env): string | undefined {
+  if (columns < WORDMARK[0]!.length + 2) return undefined
+  const on = !env.NO_COLOR
+  const truecolor = /truecolor|24bit/i.test(env.COLORTERM ?? '')
+  const sgr = (code: string) => (on ? `\x1b[${code}m` : '')
+  const fg = (rgb: number[]) =>
+    sgr(truecolor ? `38;2;${rgb.join(';')}` : `38;5;${rgb.reduce((n, c) => n * 6 + Math.round((c / 255) * 5), 0) + 16}`)
+  const art = WORDMARK.map((row) => {
+    const chars = [...row].map((ch, i) => {
+      const t = i / (row.length - 1)
+      if (ch === ' ') return ch
+      return (ch === '█' ? fg([Math.round(106 + 90 * t), Math.round(43 + 133 * t), 255]) : fg([59, 31, 143])) + ch
+    })
+    return `  ${chars.join('')}${sgr('0')}`
+  })
+  const status = `${NETWORKS[network].label}${lockNote(network)}. Information only, not financial advice.`
+  return [
+    '',
+    ...art,
+    '',
+    `  ${sgr('1')}The open-source AI agent for Robinhood Chain.${sgr('0')}`,
+    `  ${sgr('2')}${status}${sgr('0')}`,
+    '',
+  ].join('\n')
 }
 
 function terminalOnly(what: string) {
@@ -177,12 +220,17 @@ export async function main([cmd, ...rest]: string[]) {
   if (cmd === 'mcp') return startServer()
   if (cmd === '--version' || cmd === '-v') return console.log(version)
   if (cmd === 'help' || cmd === '--help' || cmd === '-h') return console.log(USAGE)
-  welcome()
   if (cmd === undefined) {
     terminalOnly('the agent')
+    const art = banner(loadConfig().network)
+    if (art) console.log(art)
+    else welcome()
     if (!readProfile()) await setup()
     process.exitCode = await launch()
-  } else if (cmd === 'setup') await setup()
+    return
+  }
+  welcome()
+  if (cmd === 'setup') await setup()
   else if (cmd === 'wallet') await wallet(rest[0])
   else if (cmd === 'limit') await limit(rest[0])
   else if (cmd === 'network') await network(rest[0])

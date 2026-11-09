@@ -4,7 +4,7 @@ import { isAbsolute, join } from 'node:path'
 import { beforeEach, expect, it, vi } from 'vitest'
 import { allTools } from '../../src/core/server.js'
 import { gooseBin, gooseEnv, gooseRoot, installGoose, writeGooseConfig } from '../../src/cli/goose.js'
-import { main } from '../../src/cli/main.js'
+import { banner, main } from '../../src/cli/main.js'
 
 beforeEach(() => {
   process.env.NOCTENNA_CONFIG_DIR = mkdtempSync(join(tmpdir(), 'noctenna-cli-'))
@@ -51,6 +51,17 @@ it('installs nothing when the Goose download does not match its pinned SHA-256',
   const fake = (async () => new Response('not goose')) as unknown as typeof fetch
   await expect(installGoose(fake)).rejects.toThrow(/does not match its pinned SHA-256/)
   expect(existsSync(gooseBin())).toBe(false)
+})
+
+it('opens the agent with the name in block letters, or the plain line when the terminal is too narrow', () => {
+  expect(banner('testnet', 60, {})).toBeUndefined()
+  const plain = banner('testnet', 100, { NO_COLOR: '1' })!
+  expect(plain).not.toContain('\x1b')
+  expect(plain).toContain('╚═╝  ╚═══╝ ╚═════╝')
+  expect(plain).toContain('The open-source AI agent for Robinhood Chain.')
+  expect(plain).toContain('Robinhood Chain testnet (46630). Information only, not financial advice.')
+  expect(banner('testnet', 100, { COLORTERM: 'truecolor' })).toContain('\x1b[38;2;106;43;255m█')
+  expect(banner('testnet', 100, {})).toMatch(/\x1b\[38;5;\d+m█/)
 })
 
 it('refuses keys, limits and the network outside an interactive terminal', async () => {

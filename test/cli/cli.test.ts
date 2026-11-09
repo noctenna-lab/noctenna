@@ -3,7 +3,16 @@ import { tmpdir } from 'node:os'
 import { isAbsolute, join } from 'node:path'
 import { beforeEach, expect, it, vi } from 'vitest'
 import { allTools } from '../../src/core/server.js'
-import { gooseBin, gooseEnv, gooseRoot, installGoose, writeGooseConfig } from '../../src/cli/goose.js'
+import {
+  gooseBin,
+  gooseEnv,
+  gooseRoot,
+  installGoose,
+  KeyRefused,
+  listModels,
+  shortlist,
+  writeGooseConfig,
+} from '../../src/cli/goose.js'
 import { banner, main } from '../../src/cli/main.js'
 
 beforeEach(() => {
@@ -51,6 +60,33 @@ it('installs nothing when the Goose download does not match its pinned SHA-256',
   const fake = (async () => new Response('not goose')) as unknown as typeof fetch
   await expect(installGoose(fake)).rejects.toThrow(/does not match its pinned SHA-256/)
   expect(existsSync(gooseBin())).toBe(false)
+})
+
+it('lists the models a key can use, newest Flash first, and tells a refused key apart', async () => {
+  const methods = ['generateContent']
+  const google = (async () =>
+    Response.json({
+      models: [
+        { name: 'models/gemini-3.6-flash', supportedGenerationMethods: methods },
+        { name: 'models/gemini-3.8-flash', supportedGenerationMethods: methods },
+        { name: 'models/gemini-3.6-pro', supportedGenerationMethods: methods },
+        { name: 'models/gemini-3.5-flash-lite', supportedGenerationMethods: methods },
+        { name: 'models/gemini-3.6-flash-image', supportedGenerationMethods: methods },
+        { name: 'models/text-embedding-9', supportedGenerationMethods: ['embedContent'] },
+      ],
+    })) as unknown as typeof fetch
+  const ids = await listModels('google', 'key', undefined, google)
+  expect(shortlist('google', ids)).toEqual([
+    'gemini-3.8-flash',
+    'gemini-3.6-flash',
+    'gemini-3.6-pro',
+    'gemini-3.5-flash-lite',
+  ])
+  const refused = (async () => new Response('API key not valid', { status: 400 })) as unknown as typeof fetch
+  await expect(listModels('google', 'wrong', undefined, refused)).rejects.toBeInstanceOf(KeyRefused)
+  expect(
+    shortlist('anthropic', ['claude-haiku-5-5', 'claude-opus-5-5', 'claude-sonnet-4-5', 'claude-sonnet-5-5']),
+  ).toEqual(['claude-sonnet-5-5', 'claude-sonnet-4-5', 'claude-opus-5-5', 'claude-haiku-5-5'])
 })
 
 it('opens the agent with the name in block letters, or the plain line when the terminal is too narrow', () => {

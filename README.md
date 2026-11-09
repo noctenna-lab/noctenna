@@ -18,7 +18,7 @@ Noctenna is an open-source AI agent for Robinhood Chain. It swaps, trades new la
 - **`noctenna mcp`**: the same tools over stdio for Claude Code, Codex, Cursor, Gemini CLI and any other MCP host.
 - **`noctenna wallet`**: create, import, show the address, export (export only in an interactive terminal).
 
-You bring the model: an API key for OpenAI, Anthropic, Google, OpenRouter or any OpenAI-compatible endpoint, or a local model through Ollama. Noctenna never hosts, resells or proxies models.
+You bring the model: an API key for Google Gemini, OpenRouter, Anthropic, OpenAI or any OpenAI-compatible endpoint, or a local model through Ollama. A free Gemini key ([aistudio.google.com/apikey](https://aistudio.google.com/apikey), no card) is enough to start, and OpenRouter has free models too. Noctenna never hosts, resells or proxies models.
 
 | Area | Read | Write (prepare, then execute) |
 |---|---|---|
@@ -43,7 +43,7 @@ To build it from source instead, or to work on the code, see [CONTRIBUTING.md](C
 ## Set up
 
 ```sh
-noctenna setup          # pick a model provider and store its API key in your OS keychain
+noctenna setup          # pick a provider, paste its key (checked, then kept in your OS keychain), pick a model
 noctenna wallet create  # or: noctenna wallet import (hidden prompt)
 noctenna                # start the agent
 ```

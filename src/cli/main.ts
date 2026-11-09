@@ -13,12 +13,15 @@ import { startServer } from '../core/server.js'
 import type { Network } from '../core/types.js'
 import { createWallet, exportKey, getAddress, importWallet, secretDelete, secretSet } from '../core/wallet.js'
 import {
-  gooseRoot,
+  KeyRefused,
   launch,
+  listModels,
   MODEL_KEY,
+  OLLAMA_URL,
   PROVIDERS,
   readProfile,
   saveProfile,
+  shortlist,
   writeGooseConfig,
   type ProviderId,
 } from './goose.js'
@@ -101,11 +104,12 @@ async function ask(q: string): Promise<string> {
   }
 }
 
-// Reads a line without echoing it, so a key never lands in the terminal's scrollback.
+// Reads a line without echoing it, so a key never lands in the terminal's scrollback. Echo goes off before the prompt
+// appears: typing (or pasting) the moment it shows can no longer reach the terminal while echo is still on.
 function askHidden(q: string): Promise<string> {
-  process.stdout.write(q)
   const stdin = process.stdin
   stdin.setRawMode(true)
+  process.stdout.write(q)
   stdin.resume()
   stdin.setEncoding('utf8')
   let s = ''
@@ -127,33 +131,52 @@ function askHidden(q: string): Promise<string> {
   })
 }
 
+// Pick a provider (Enter takes the free Gemini key), paste its key, and pick a model from the ones the key can use:
+// the key is checked before anything is saved, and nobody has to know how a provider spells its model names.
 async function setup() {
   terminalOnly('setup')
-  console.log(`Noctenna runs on Robinhood Chain mainnet. Until the token launch it reads only: launch checks, funding,
-perps markets, balances and quotes work now, and trading opens at the launch.
-To practise trading now: \`noctenna network testnet\`. Test ETH: ${FAUCET}. Perps practice: ${ARCUS_TESTNET}.
-`)
-  const ids = Object.keys(PROVIDERS) as ProviderId[]
-  ids.forEach((id, i) => console.log(`  ${i + 1}. ${PROVIDERS[id].label}`))
-  const pick = Number(await ask('Model provider [1-6]: '))
-  const provider = ids[pick - 1]
+  console.log("Noctenna thinks with an AI model you choose. Its key stays in this computer's keychain.\n")
+  // Ollama is offered only when it runs on this computer, so it can never be picked without a model to answer
+  const ollama = await listModels('ollama', null).catch(() => [])
+  const ids = (Object.keys(PROVIDERS) as ProviderId[]).filter((id) => id !== 'ollama' || ollama.length)
+  ids.forEach((id, i) => {
+    const d: { label: string; note?: string; keyUrl?: string } = PROVIDERS[id]
+    console.log(`  ${i + 1}. ${d.label.padEnd(26)}${d.note ? `${d.note}: ${d.keyUrl}` : ''}`)
+  })
+  const provider = ids[Number((await ask(`Provider [1-${ids.length}, Enter for 1]: `)) || 1) - 1]
   if (!provider) throw new Error('pick a number from the list')
   const def = PROVIDERS[provider]
-  const model = await ask(
-    provider === 'ollama' ? 'Model name (as `ollama list` shows it): ' : 'Model name, as the provider spells it: ',
-  )
-  if (!model) throw new Error('a model name is needed')
-  let url: string | undefined
+  let url = provider === 'ollama' ? OLLAMA_URL : undefined
   if (provider === 'compatible')
     url = new URL(await ask('Base URL (for example https://example.com/v1): ')).href.replace(/\/$/, '')
-  if (provider === 'ollama')
-    url = new URL((await ask('Ollama address [http://localhost:11434]: ')) || 'http://localhost:11434').href.replace(
-      /\/$/,
-      '',
-    )
+  let key: string | null = null
+  let models: string[] | null = null
+  for (let tries = 1; models === null; tries++) {
+    if ('keyEnv' in def) {
+      const hint = provider === 'compatible' ? 'API key (hidden; Enter for none): ' : `${def.label} API key (hidden): `
+      key = (await askHidden(hint)) || null
+      if (!key && provider !== 'compatible') throw new Error('an API key is needed for this provider')
+    }
+    try {
+      models = shortlist(provider, await listModels(provider, key, url))
+    } catch (e) {
+      if (!(e instanceof KeyRefused)) {
+        // An unreachable provider is no reason to stop: the model name can still be typed
+        console.log(`Could not list the models: ${e instanceof Error ? e.message : String(e)}.`)
+        models = []
+      } else if (tries === 3 || !('keyEnv' in def)) throw e
+      else console.log('The provider refused that key. Paste it again.')
+    }
+  }
+  let model: string
+  if (models.length) {
+    console.log(key ? 'The key works. Models it can use:' : 'Models available:')
+    models.forEach((m, i) => console.log(`  ${i + 1}. ${m}${i ? '' : '   (recommended)'}`))
+    const a = await ask(`Model [1-${models.length}, Enter for 1, or type another name]: `)
+    model = !a ? models[0]! : /^\d+$/.test(a) ? (models[Number(a) - 1] ?? '') : a
+  } else model = await ask('Model name, as the provider spells it: ')
+  if (!model) throw new Error('a model name is needed')
   if ('keyEnv' in def) {
-    const key = await askHidden(provider === 'compatible' ? 'API key (hidden; Enter for none): ' : 'API key (hidden): ')
-    if (!key && provider !== 'compatible') throw new Error('an API key is needed for this provider')
     // The old provider's key must never be sent to a new endpoint.
     await secretDelete(MODEL_KEY).catch(() => {})
     if (key) await secretSet(MODEL_KEY, key)
@@ -162,10 +185,13 @@ To practise trading now: \`noctenna network testnet\`. Test ETH: ${FAUCET}. Perp
   const profile = { provider, model, url }
   saveProfile(profile)
   writeGooseConfig(profile)
-  console.log(`Goose profile written to ${gooseRoot()}.`)
+  console.log(`Model: ${model} on ${def.label}.`)
   if (!(await getAddress()))
     console.log('Next: `noctenna wallet create` (or `noctenna wallet import`), then `noctenna`.')
   else console.log('Next: `noctenna`.')
+  console.log(
+    `Mainnet reads only until the token launch. To practise trading now: \`noctenna network testnet\` (test ETH: ${FAUCET}, perps: ${ARCUS_TESTNET}).`,
+  )
 }
 
 async function wallet(sub?: string) {

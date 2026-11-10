@@ -182,6 +182,44 @@ body::before {
   color: var(--text);
   background: rgba(148, 112, 255, 0.18);
 }
+.ndot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 8px var(--live);
+}
+#netbtn {
+  font-family: var(--mono);
+  font-weight: 600;
+}
+.nid {
+  color: var(--dim);
+  font: 600 12px var(--mono);
+}
+.netmenu {
+  min-width: 200px;
+}
+.netmenu li {
+  font-family: var(--mono);
+}
+.netmenu li > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.netmenu li small {
+  margin-left: 2px;
+  font-family: var(--mono);
+}
+.netmenu .tick {
+  color: var(--lilac);
+  visibility: hidden;
+}
+.netmenu li[aria-selected='true'] .tick {
+  visibility: visible;
+}
 
 .btn {
   display: inline-flex;
@@ -1620,6 +1658,12 @@ footer {
     height: 34px;
     padding: 0 9px;
   }
+  /* a phone keeps the network name, the globe and X: the code, the chain id and GitHub (in the footer) give way */
+  #netbtn .nid,
+  #langcode,
+  .navr a.iconbtn[href*='github.com'] {
+    display: none;
+  }
   .langmenu {
     position: fixed;
     left: 12px;
@@ -2243,4 +2287,9 @@ footer {
 :lang(zh-TW) h2 {
   font-size: clamp(30px, 3.6vw, 50px);
   line-height: 1.15;
+}
+@media (max-width: 374px) {
+  .navr a.iconbtn[href*='x.com'] {
+    display: none;
+  }
 }

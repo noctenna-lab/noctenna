@@ -1,313 +1,838 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Noctenna · The AI agent for Robinhood Chain</title>
-<meta name="description" content="Noctenna is an open-source AI agent for Robinhood Chain: launch checks, a live funding radar for Arcus and Lighter, and trading from a wallet that stays on your computer.">
-<meta name="theme-color" content="#0A0715">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" href="/favicon-180.png">
-<meta property="og:title" content="Noctenna · The AI agent for Robinhood Chain">
-<meta property="og:description" content="Launch checks, a live funding radar for Arcus and Lighter, and trading from a wallet that never leaves your computer. Open source.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Noctenna">
-<meta property="og:url" content="https://noctenna.xyz/">
-<link rel="canonical" href="https://noctenna.xyz/">
-<meta property="og:image" content="https://noctenna.xyz/og.jpg">
-<meta property="og:image:width" content="2400">
-<meta property="og:image:height" content="1260">
-<meta property="og:image:alt" content="Noctenna: Wall Street sleeps. Your liquidation doesn't.">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://noctenna.xyz/og.jpg">
-<link rel="preconnect" href="https://api.fontshare.com">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap">
-<link rel="stylesheet" href="/src/style.css">
-</head>
-<body>
-
-<nav class="nav" id="nav"><div class="wrap">
-  <a class="brand" href="#top" aria-label="Noctenna home"><img class="ic" src="/favicon.svg" alt="" width="28" height="28"><span>NOCTENNA</span></a>
-  <div class="links">
-    <a href="#ask" data-i18n="nav_how">How it works</a>
-    <a href="#reopen" data-i18n="nav_reopen">Reopen watch</a>
-    <a href="#tools" data-i18n="nav_tools">Tools</a>
-    <a href="#radar" data-i18n="nav_radar">Radar</a>
-    <a href="#hub" data-i18n="nav_apps">Apps</a>
-    <a href="#safety" data-i18n="nav_safety">Safety</a>
-    <a href="#faq" data-i18n="nav_faq">FAQ</a>
-  </div>
-  <div class="navr">
-    <div class="lang" id="lang">
-      <button type="button" class="iconbtn" id="langbtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3Z"/></svg>
-        <span id="langcode">EN</span>
-      </button>
-      <ul class="langmenu" id="langmenu" role="listbox" hidden></ul>
-    </div>
-    <a class="iconbtn" href="https://x.com/NoctennaAgent" target="_blank" rel="noopener" aria-label="Noctenna on X">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.5 3h3.1l-6.8 7.8L21.8 21h-6.3l-4.9-6.4L5 21H1.9l7.3-8.3L1.5 3h6.4l4.4 5.9L17.5 3Zm-1.1 16.2h1.7L6.9 4.7H5.1l11.3 14.5Z"/></svg>
-    </a>
-    <a class="iconbtn" href="https://github.com/noctenna-lab/noctenna" target="_blank" rel="noopener" aria-label="Noctenna on GitHub">
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-    </a>
-    <a class="btn btn-lilac btn-sm navbtn" href="#install" data-i18n="nav_install">Install</a>
-  </div>
-</div></nav>
-
-<header class="hero" id="top">
-  <canvas id="pts" aria-hidden="true"></canvas>
-  <div class="copy"><div class="wrap"><div class="inner" id="heroCopy">
-    <span class="pill"><span class="dot"></span><span data-i18n="hero_pill">Live on testnet · launching soon</span></span>
-    <h1><span data-i18n="hero_h1" id="h1text">Your AI agent for everything on Robinhood Chain.</span><span class="rot" id="rot" aria-live="polite"><span>Launch checks.</span></span></h1>
-    <p data-i18n="hero_sub">Check new launches, read perps on Arcus and Lighter, and trade from a wallet that never leaves your computer. Open source.</p>
-    <div class="ctas">
-      <button class="btn btn-lilac" type="button" data-copy="npm i -g noctenna"><span data-i18n="cta_install">Install</span> <span class="code">npm i -g noctenna</span></button>
-      <a class="btn btn-ghost" href="#radar" data-i18n="cta_radar">See the radar</a>
-    </div>
-    <div class="works"><span data-i18n="works_in">Works in</span> <b>Claude Code</b><b>Codex</b><b>Cursor</b><b>Gemini CLI</b><b>Ollama</b></div>
-  </div></div></div>
-  <a class="scrollcue" href="#ask" aria-label="Scroll"><i></i></a>
-</header>
-
-<section class="sec asksec" id="ask">
-  <div class="wrap">
-    <div class="shead reveal"><span class="eyebrow" data-i18n="ask_eyebrow">How it works</span><h2 data-i18n="ask_h2">Ask in plain words. It reads the chain for you.</h2><p class="lead" data-i18n="ask_lead">Funding, launches, balances and quotes come live from the chain and the venues. Anything that moves money waits for your yes.</p></div>
-  </div>
-  <div class="band" id="band" data-plate="/plates/band.webp" aria-hidden="true"><i class="ink v"></i><i class="ink l"></i></div>
-  <div class="wrap">
-    <div class="wintilt" id="winTilt"><div class="win" id="win">
-      <div class="wbar">
-        <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="wname">noctenna</span>
-        <div class="tabs" role="tablist">
-          <button type="button" role="tab" id="tab0" aria-controls="pane0" aria-selected="true" data-i18n="tab_funding">Funding</button>
-          <button type="button" role="tab" id="tab1" aria-controls="pane1" aria-selected="false" tabindex="-1" data-i18n="tab_launch">Launch check</button>
-          <button type="button" role="tab" id="tab2" aria-controls="pane2" aria-selected="false" tabindex="-1" data-i18n="tab_order">Perps order</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Noctenna · The AI agent for Robinhood Chain</title>
+    <meta
+      name="description"
+      content="Noctenna is an open-source AI agent for Robinhood Chain: launch checks, a live funding radar for Arcus and Lighter, and trading from a wallet that stays on your computer."
+    />
+    <meta name="theme-color" content="#0A0715" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
+    <meta property="og:title" content="Noctenna · The AI agent for Robinhood Chain" />
+    <meta
+      property="og:description"
+      content="Launch checks, a live funding radar for Arcus and Lighter, and trading from a wallet that never leaves your computer. Open source."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Noctenna" />
+    <meta property="og:url" content="https://noctenna.xyz/" />
+    <link rel="canonical" href="https://noctenna.xyz/" />
+    <meta property="og:image" content="https://noctenna.xyz/og.jpg" />
+    <meta property="og:image:width" content="2400" />
+    <meta property="og:image:height" content="1260" />
+    <meta property="og:image:alt" content="Noctenna: Wall Street sleeps. Your liquidation doesn't." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://noctenna.xyz/og.jpg" />
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <nav class="nav" id="nav">
+      <div class="wrap">
+        <a class="brand" href="#top" aria-label="Noctenna home"
+          ><img class="ic" src="/favicon.svg" alt="" width="28" height="28" /><span>NOCTENNA</span></a
+        >
+        <div class="links">
+          <a href="#ask" data-i18n="nav_how">How it works</a>
+          <a href="#reopen" data-i18n="nav_reopen">Reopen watch</a>
+          <a href="#tools" data-i18n="nav_tools">Tools</a>
+          <a href="#radar" data-i18n="nav_radar">Radar</a>
+          <a href="#hub" data-i18n="nav_apps">Apps</a>
+          <a href="#safety" data-i18n="nav_safety">Safety</a>
+          <a href="#faq" data-i18n="nav_faq">FAQ</a>
+        </div>
+        <div class="navr">
+          <div class="lang" id="net">
+            <button
+              type="button"
+              class="iconbtn"
+              id="netbtn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label="Network"
+            >
+              <span class="ndot" aria-hidden="true"></span><span id="netname">testnet</span
+              ><span class="nid" id="netid">46630</span>
+            </button>
+            <ul class="langmenu netmenu" id="netmenu" role="listbox" hidden></ul>
+          </div>
+          <div class="lang" id="lang">
+            <button
+              type="button"
+              class="iconbtn"
+              id="langbtn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label="Language"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3Z" />
+              </svg>
+              <span id="langcode">EN</span>
+            </button>
+            <ul class="langmenu" id="langmenu" role="listbox" hidden></ul>
+          </div>
+          <a
+            class="iconbtn"
+            href="https://x.com/NoctennaAgent"
+            target="_blank"
+            rel="noopener"
+            aria-label="Noctenna on X"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M17.5 3h3.1l-6.8 7.8L21.8 21h-6.3l-4.9-6.4L5 21H1.9l7.3-8.3L1.5 3h6.4l4.4 5.9L17.5 3Zm-1.1 16.2h1.7L6.9 4.7H5.1l11.3 14.5Z"
+              />
+            </svg>
+          </a>
+          <a
+            class="iconbtn"
+            href="https://github.com/noctenna-lab/noctenna"
+            target="_blank"
+            rel="noopener"
+            aria-label="Noctenna on GitHub"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              />
+            </svg>
+          </a>
+          <a class="btn btn-lilac btn-sm navbtn" href="#install" data-i18n="nav_install">Install</a>
         </div>
       </div>
-      <div class="wbody">
-        <div class="pane on" role="tabpanel" id="pane0" aria-labelledby="tab0">
-          <p class="q"><span class="pr">›</span> <span class="qt" data-i18n="ask_q1">where do Arcus and Lighter disagree most?</span></p>
-          <div class="a"><img class="who" src="/favicon.svg" alt="" width="28" height="28"><div class="abody">
-            <p id="ans1">WLD: Arcus +10.95%/yr, Lighter −27.16%/yr. The gap is 38.11%/yr.</p>
-            <div class="grows" id="gaprows">
-              <div class="grow ghead"><span data-i18n="col_market">Market</span><span>Arcus</span><span>Lighter</span><span data-i18n="col_gap">Gap</span></div>
-              <div class="grow"><b>WLD</b><span>+10.95</span><span class="neg">−27.16</span><b class="hot">38.11</b></div>
-              <div class="grow"><b>SOL</b><span>+10.95</span><span>+3.50</span><b>7.45</b></div>
-              <div class="grow"><b>BTC</b><span>+10.95</span><span>+10.51</span><b>0.44</b></div>
+    </nav>
+
+    <header class="hero" id="top">
+      <canvas id="pts" aria-hidden="true"></canvas>
+      <div class="copy">
+        <div class="wrap">
+          <div class="inner" id="heroCopy">
+            <span class="pill"
+              ><span class="dot"></span><span data-i18n="hero_pill">Live on testnet · launching soon</span></span
+            >
+            <h1>
+              <span data-i18n="hero_h1" id="h1text">Your AI agent for everything on Robinhood Chain.</span
+              ><span class="rot" id="rot" aria-live="polite"><span>Launch checks.</span></span>
+            </h1>
+            <p data-i18n="hero_sub">
+              Check new launches, read perps on Arcus and Lighter, and trade from a wallet that never leaves your
+              computer. Open source.
+            </p>
+            <div class="ctas">
+              <button class="btn btn-lilac" type="button" data-copy="npm i -g noctenna">
+                <span data-i18n="cta_install">Install</span> <span class="code">npm i -g noctenna</span>
+              </button>
+              <a class="btn btn-ghost" href="#radar" data-i18n="cta_radar">See the radar</a>
             </div>
-            <p class="asub" id="ans1b">41 stock markets are shut, so their Arcus funding is fixed at 4.48%/yr.</p>
-            <span class="atag"><span class="dot"></span><span data-i18n="board_live">Live data</span> · <span id="a_time">06:50 UTC</span></span>
-          </div></div>
-        </div>
-        <div class="pane" role="tabpanel" id="pane1" aria-labelledby="tab1" hidden>
-          <p class="q"><span class="pr">›</span> <span class="qt" data-i18n="ask_q2">check the newest launch</span></p>
-          <div class="a"><img class="who" src="/favicon.svg" alt="" width="28" height="28"><div class="abody">
-            <p data-i18n="ans2">Here is what the chain shows. Read it before you decide.</p>
-            <div class="arows">
-              <div class="mrow"><span data-i18n="m_dev">Dev buy at launch</span><b>0.04 ETH</b></div>
-              <div class="mrow"><span data-i18n="m_exempt">Snipe-tax-exempt wallets</span><b class="ok" data-i18n="m_none">none</b></div>
-              <div class="mrow"><span data-i18n="m_buyers">Outside buyers in 5 min</span><b>37</b></div>
-              <div class="mrow"><span data-i18n="m_first3">Bought in the first 3 s</span><b class="warn">18%</b></div>
-              <div class="mrow"><span data-i18n="m_deployer">Deployer's earlier launches</span><b>3 · 1 <span data-i18n="m_grad">graduated</span></b></div>
+            <div class="works">
+              <span data-i18n="works_in">Works in</span> <b>Claude Code</b><b>Codex</b><b>Cursor</b><b>Gemini CLI</b
+              ><b>Ollama</b>
             </div>
-            <span class="atag ex" data-i18n="example">EXAMPLE</span>
-          </div></div>
+          </div>
         </div>
-        <div class="pane" role="tabpanel" id="pane2" aria-labelledby="tab2" hidden>
-          <p class="q"><span class="pr">›</span> <span class="qt" data-i18n="ask_q3">long NVDA, $200 at 2x, take profit 195, stop 180</span></p>
-          <div class="a"><img class="who" src="/favicon.svg" alt="" width="28" height="28"><div class="abody">
-            <div class="arows">
-              <div class="mrow"><span data-i18n="m_market">Market</span><b>NVDA-USD · Arcus</b></div>
-              <div class="mrow"><span data-i18n="m_side">Side and size</span><b><span data-i18n="m_long">Long</span> · $200 · 2x</b></div>
-              <div class="mrow"><span data-i18n="m_tpsl">Take profit · stop loss</span><b>195.00 · 180.00</b></div>
-              <div class="mrow"><span data-i18n="m_margin">Margin against your daily limit</span><b>$100</b></div>
-              <div class="mrow lockrow" data-i18n="m_locked">Real-money orders open at launch</div>
+      </div>
+      <a class="scrollcue" href="#ask" aria-label="Scroll"><i></i></a>
+    </header>
+
+    <section class="sec asksec" id="ask">
+      <div class="wrap">
+        <div class="shead reveal">
+          <span class="eyebrow" data-i18n="ask_eyebrow">How it works</span>
+          <h2 data-i18n="ask_h2">Ask in plain words. It reads the chain for you.</h2>
+          <p class="lead" data-i18n="ask_lead">
+            Funding, launches, balances and quotes come live from the chain and the venues. Anything that moves money
+            waits for your yes.
+          </p>
+        </div>
+      </div>
+      <div class="band" id="band" data-plate="/plates/band.webp" aria-hidden="true">
+        <i class="ink v"></i><i class="ink l"></i>
+      </div>
+      <div class="wrap">
+        <div class="wintilt" id="winTilt">
+          <div class="win" id="win">
+            <div class="wbar">
+              <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="wname">noctenna</span>
+              <div class="tabs" role="tablist">
+                <button
+                  type="button"
+                  role="tab"
+                  id="tab0"
+                  aria-controls="pane0"
+                  aria-selected="true"
+                  data-i18n="tab_funding"
+                >
+                  Funding
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  id="tab1"
+                  aria-controls="pane1"
+                  aria-selected="false"
+                  tabindex="-1"
+                  data-i18n="tab_launch"
+                >
+                  Launch check
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  id="tab2"
+                  aria-controls="pane2"
+                  aria-selected="false"
+                  tabindex="-1"
+                  data-i18n="tab_order"
+                >
+                  Perps order
+                </button>
+              </div>
             </div>
-            <p class="asub" data-i18n="ans3">Reply yes to send it. Nothing moves before that.</p>
-            <span class="atag ex" data-i18n="example">EXAMPLE</span>
-          </div></div>
+            <div class="wbody">
+              <div class="pane on" role="tabpanel" id="pane0" aria-labelledby="tab0">
+                <p class="q">
+                  <span class="pr">›</span>
+                  <span class="qt" data-i18n="ask_q1">where do Arcus and Lighter disagree most?</span>
+                </p>
+                <div class="a">
+                  <img class="who" src="/favicon.svg" alt="" width="28" height="28" />
+                  <div class="abody">
+                    <p id="ans1">WLD: Arcus +10.95%/yr, Lighter −27.16%/yr. The gap is 38.11%/yr.</p>
+                    <div class="grows" id="gaprows">
+                      <div class="grow ghead">
+                        <span data-i18n="col_market">Market</span><span>Arcus</span><span>Lighter</span
+                        ><span data-i18n="col_gap">Gap</span>
+                      </div>
+                      <div class="grow">
+                        <b>WLD</b><span>+10.95</span><span class="neg">−27.16</span><b class="hot">38.11</b>
+                      </div>
+                      <div class="grow"><b>SOL</b><span>+10.95</span><span>+3.50</span><b>7.45</b></div>
+                      <div class="grow"><b>BTC</b><span>+10.95</span><span>+10.51</span><b>0.44</b></div>
+                    </div>
+                    <p class="asub" id="ans1b">
+                      41 stock markets are shut, so their Arcus funding is fixed at 4.48%/yr.
+                    </p>
+                    <span class="atag"
+                      ><span class="dot"></span><span data-i18n="board_live">Live data</span> ·
+                      <span id="a_time">06:50 UTC</span></span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="pane" role="tabpanel" id="pane1" aria-labelledby="tab1" hidden>
+                <p class="q">
+                  <span class="pr">›</span> <span class="qt" data-i18n="ask_q2">check the newest launch</span>
+                </p>
+                <div class="a">
+                  <img class="who" src="/favicon.svg" alt="" width="28" height="28" />
+                  <div class="abody">
+                    <p data-i18n="ans2">Here is what the chain shows. Read it before you decide.</p>
+                    <div class="arows">
+                      <div class="mrow"><span data-i18n="m_dev">Dev buy at launch</span><b>0.04 ETH</b></div>
+                      <div class="mrow">
+                        <span data-i18n="m_exempt">Snipe-tax-exempt wallets</span
+                        ><b class="ok" data-i18n="m_none">none</b>
+                      </div>
+                      <div class="mrow"><span data-i18n="m_buyers">Outside buyers in 5 min</span><b>37</b></div>
+                      <div class="mrow">
+                        <span data-i18n="m_first3">Bought in the first 3 s</span><b class="warn">18%</b>
+                      </div>
+                      <div class="mrow">
+                        <span data-i18n="m_deployer">Deployer's earlier launches</span
+                        ><b>3 · 1 <span data-i18n="m_grad">graduated</span></b>
+                      </div>
+                    </div>
+                    <span class="atag ex" data-i18n="example">EXAMPLE</span>
+                  </div>
+                </div>
+              </div>
+              <div class="pane" role="tabpanel" id="pane2" aria-labelledby="tab2" hidden>
+                <p class="q">
+                  <span class="pr">›</span>
+                  <span class="qt" data-i18n="ask_q3">long NVDA, $200 at 2x, take profit 195, stop 180</span>
+                </p>
+                <div class="a">
+                  <img class="who" src="/favicon.svg" alt="" width="28" height="28" />
+                  <div class="abody">
+                    <div class="arows">
+                      <div class="mrow"><span data-i18n="m_market">Market</span><b>NVDA-USD · Arcus</b></div>
+                      <div class="mrow">
+                        <span data-i18n="m_side">Side and size</span
+                        ><b><span data-i18n="m_long">Long</span> · $200 · 2x</b>
+                      </div>
+                      <div class="mrow">
+                        <span data-i18n="m_tpsl">Take profit · stop loss</span><b>195.00 · 180.00</b>
+                      </div>
+                      <div class="mrow">
+                        <span data-i18n="m_margin">Margin against your daily limit</span><b>$100</b>
+                      </div>
+                      <div class="mrow lockrow" data-i18n="m_locked">Real-money orders open at launch</div>
+                    </div>
+                    <p class="asub" data-i18n="ans3">Reply yes to send it. Nothing moves before that.</p>
+                    <span class="atag ex" data-i18n="example">EXAMPLE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wfoot">
+              <span class="pr">›</span><span class="caret" aria-hidden="true"></span
+              ><span data-i18n="ask_foot">Information only, not financial advice.</span>
+            </div>
+          </div>
+        </div>
+        <ol class="beats">
+          <li class="reveal">
+            <b>01</b>
+            <h4 data-i18n="s1_t">You ask</h4>
+            <p data-i18n="s1_d">"Swap 50 USDG to ETH"</p>
+          </li>
+          <li class="reveal">
+            <b>02</b>
+            <h4 data-i18n="s2_t">It prepares</h4>
+            <p data-i18n="s2_d">route, amounts, worst case, fees</p>
+          </li>
+          <li class="reveal">
+            <b>03</b>
+            <h4 data-i18n="s3_t">You say yes</h4>
+            <p data-i18n="s3_d">nothing moves before this</p>
+          </li>
+          <li class="reveal">
+            <b>04</b>
+            <h4 data-i18n="s4_t">It sends and checks</h4>
+            <p data-i18n="s4_d">re-quoted, then a link to the receipt</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="sec reopen" id="reopen">
+      <div class="wrap">
+        <div class="shead reveal">
+          <span class="eyebrow"
+            ><span class="dot" id="ro_dot"></span><span data-i18n="ro_eyebrow">Reopen watch</span></span
+          >
+          <h2 data-i18n="ro_h2">Wall Street sleeps. Your liquidation doesn't.</h2>
+          <p class="lead" data-i18n="ro_lead">
+            While US markets are shut, Arcus holds every stock perp inside a price band, so the weekend looks calm. The
+            reopen has no band. Noctenna checks your stock perps before it: how far the weekend moved them, how close
+            they sit to the band, and what a gap would do to your position.
+          </p>
+        </div>
+        <div class="rogrid">
+          <div class="rocard reveal">
+            <div class="rohead">
+              <b data-i18n="ro_board_t">Before the reopen</b
+              ><span class="rostate" id="ro_state">US markets shut · 06:50 UTC</span>
+            </div>
+            <div class="rorow roth">
+              <span data-i18n="col_market">Market</span><span class="r" data-i18n="ro_col_move">Since Friday</span
+              ><span data-i18n="ro_col_band">Weekend band</span><span class="r" data-i18n="ro_col_room">Room left</span>
+            </div>
+            <div id="ro_rows"></div>
+            <p class="ronote" data-i18n="ro_board_note">
+              The 8 most traded stock perps on Arcus, live. Room left is the distance to the band edge in the direction
+              of the move.
+            </p>
+          </div>
+          <div class="rocard reveal" id="roCalc">
+            <div class="rohead">
+              <b data-i18n="ro_calc_t">What a gap does</b><span class="atag ex" data-i18n="ro_estimate">ESTIMATE</span>
+            </div>
+            <div class="roform">
+              <label class="rofield"
+                ><span data-i18n="col_market">Market</span
+                ><select id="ro_mkt"></select
+              ></label>
+              <div class="seg" role="radiogroup" id="ro_side">
+                <button type="button" role="radio" aria-checked="true" data-side="long" data-i18n="m_long">Long</button>
+                <button type="button" role="radio" aria-checked="false" data-side="short" data-i18n="ro_short">
+                  Short
+                </button>
+              </div>
+              <label class="rofield rolev"
+                ><span><span data-i18n="ro_lev">Leverage</span> <b id="ro_levv">10x</b></span
+                ><input type="range" id="ro_lev" min="1" max="13" step="1" value="10"
+              /></label>
+            </div>
+            <div class="roout">
+              <div class="rokv"><span data-i18n="ro_out_band">Weekend band</span><b id="ro_band">±2.5% · ±5.0%</b></div>
+              <div class="rokv"><span data-i18n="ro_out_liq">Liquidation</span><b id="ro_liq">$179.09 · −4.4%</b></div>
+              <div class="rokv">
+                <span data-i18n="ro_out_gap">Gap from Friday that reaches it</span><b id="ro_gap">−5.0%</b>
+              </div>
+              <div class="rokv">
+                <span data-i18n="ro_out_hist">Weekends that opened that far against you</span><b id="ro_hist">0 / 32</b>
+              </div>
+              <p class="roverdict" id="ro_verdict">
+                Only a widened band reaches it over the weekend. The reopen can reach it at once.
+              </p>
+              <p class="rous" id="ro_us">All US shares: 6.1% of 1,744 weekends</p>
+            </div>
+            <p class="ronote" data-i18n="ro_calc_note">
+              Estimate for one isolated position: liquidation ≈ 1 ÷ leverage − maintenance margin. Your real price
+              depends on your account; in Noctenna, perps_reopen_check reads it. Information only, not financial advice.
+            </p>
+          </div>
+        </div>
+        <div class="rostats">
+          <div class="reveal">
+            <b id="ro_s1v">30%</b
+            ><span data-i18n="ro_s1">of US stocks opened Monday more than 2% from Friday's close</span>
+          </div>
+          <div class="reveal"><b id="ro_s2v">6%</b><span data-i18n="ro_s2">opened more than 5% away</span></div>
+          <div class="reveal">
+            <b id="ro_live_n">41</b><span data-i18n="ro_s3">stock perps held inside a weekend band right now</span>
+          </div>
+        </div>
+        <p class="rosrc" id="ro_src">
+          Gap history: Weekend Oracle's public data, 1,744 US stock-weekends from 28 Mar to 31 Oct 2026.
+        </p>
+      </div>
+    </section>
+
+    <section class="sec" id="tools">
+      <div class="wrap">
+        <div class="shead reveal">
+          <span class="eyebrow" data-i18n="tools_eyebrow">Tools</span>
+          <h2 data-i18n="tools_h2">Every chain job, one chat.</h2>
+          <p class="lead" data-i18n="tools_lead">
+            Ask in plain words. Everything that reads is live today; trading opens at the token launch.
+          </p>
+        </div>
+        <div class="pgrid">
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/rocket.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">01</span>
+              <h3 data-i18n="c_launch_t">Launch check</h3>
+              <div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div>
+              <p data-i18n="c_launch_d">
+                Paste any new launch and get the facts behind the chart, before you decide anything.
+              </p>
+            </div>
+          </article>
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/dish.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">02</span>
+              <h3 data-i18n="c_fund_t">Funding radar</h3>
+              <div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div>
+              <p data-i18n="c_fund_d">
+                Funding on Arcus and Lighter side by side, widest gaps first, refreshed every minute.
+              </p>
+              <div class="fact">
+                <span class="dot"></span><b id="f_gap">38.1%</b> <span data-i18n="stat_gap">widest gap</span> ·
+                <span id="f_gapsym">WLD</span>
+              </div>
+            </div>
+          </article>
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/moon.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">03</span>
+              <h3 data-i18n="c_weekend_t">Weekend gap</h3>
+              <div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div>
+              <p data-i18n="c_weekend_d">
+                Wall Street is shut, the perps are not. See where each stock trades against its Friday close.
+              </p>
+              <div class="fact">
+                <span class="dot"></span><b id="f_shut">41</b> <span data-i18n="stat_shut">stock markets shut</span>
+              </div>
+            </div>
+          </article>
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/masts.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">04</span>
+              <h3 data-i18n="c_perps_t">Perps</h3>
+              <div class="chips">
+                <span class="chip chip-live" data-i18n="data_live">Data: live</span
+                ><span class="chip chip-soon" data-i18n="trading_launch">Trading: at launch</span>
+              </div>
+              <p data-i18n="c_perps_d">
+                Markets, books and positions on Arcus and Lighter. Orders with take-profit and stop-loss on Arcus.
+              </p>
+            </div>
+          </article>
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/rail.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">05</span>
+              <h3 data-i18n="c_swap_t">Swaps</h3>
+              <div class="chips"><span class="chip chip-soon" data-i18n="at_launch">At launch</span></div>
+              <p data-i18n="c_swap_d">
+                The best route across KyberSwap and Uniswap, exact approvals only, and a daily dollar limit you set.
+              </p>
+            </div>
+          </article>
+          <article class="pcard reveal">
+            <div class="art" data-plate="/plates/bridge.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <span class="pnum">06</span>
+              <h3 data-i18n="c_bridge_t">Bridge</h3>
+              <div class="chips"><span class="chip chip-soon" data-i18n="at_launch">At launch</span></div>
+              <p data-i18n="c_bridge_d">
+                Bridge from Robinhood Chain to other chains through Relay, with every fee shown before you say yes.
+              </p>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="wfoot"><span class="pr">›</span><span class="caret" aria-hidden="true"></span><span data-i18n="ask_foot">Information only, not financial advice.</span></div>
-    </div></div>
-    <ol class="beats">
-      <li class="reveal"><b>01</b><h4 data-i18n="s1_t">You ask</h4><p data-i18n="s1_d">"Swap 50 USDG to ETH"</p></li>
-      <li class="reveal"><b>02</b><h4 data-i18n="s2_t">It prepares</h4><p data-i18n="s2_d">route, amounts, worst case, fees</p></li>
-      <li class="reveal"><b>03</b><h4 data-i18n="s3_t">You say yes</h4><p data-i18n="s3_d">nothing moves before this</p></li>
-      <li class="reveal"><b>04</b><h4 data-i18n="s4_t">It sends and checks</h4><p data-i18n="s4_d">re-quoted, then a link to the receipt</p></li>
-    </ol>
-  </div>
-</section>
+    </section>
 
-<section class="sec reopen" id="reopen"><div class="wrap">
-  <div class="shead reveal">
-    <span class="eyebrow"><span class="dot" id="ro_dot"></span><span data-i18n="ro_eyebrow">Reopen watch</span></span>
-    <h2 data-i18n="ro_h2">Wall Street sleeps. Your liquidation doesn't.</h2>
-    <p class="lead" data-i18n="ro_lead">While US markets are shut, Arcus holds every stock perp inside a price band, so the weekend looks calm. The reopen has no band. Noctenna checks your stock perps before it: how far the weekend moved them, how close they sit to the band, and what a gap would do to your position.</p>
-  </div>
-  <div class="rogrid">
-    <div class="rocard reveal">
-      <div class="rohead"><b data-i18n="ro_board_t">Before the reopen</b><span class="rostate" id="ro_state">US markets shut · 06:50 UTC</span></div>
-      <div class="rorow roth"><span data-i18n="col_market">Market</span><span class="r" data-i18n="ro_col_move">Since Friday</span><span data-i18n="ro_col_band">Weekend band</span><span class="r" data-i18n="ro_col_room">Room left</span></div>
-      <div id="ro_rows"></div>
-      <p class="ronote" data-i18n="ro_board_note">The 8 most traded stock perps on Arcus, live. Room left is the distance to the band edge in the direction of the move.</p>
-    </div>
-    <div class="rocard reveal" id="roCalc">
-      <div class="rohead"><b data-i18n="ro_calc_t">What a gap does</b><span class="atag ex" data-i18n="ro_estimate">ESTIMATE</span></div>
-      <div class="roform">
-        <label class="rofield"><span data-i18n="col_market">Market</span><select id="ro_mkt"></select></label>
-        <div class="seg" role="radiogroup" id="ro_side">
-          <button type="button" role="radio" aria-checked="true" data-side="long" data-i18n="m_long">Long</button>
-          <button type="button" role="radio" aria-checked="false" data-side="short" data-i18n="ro_short">Short</button>
+    <section class="sec radarsec" id="radar">
+      <div class="wrap">
+        <div class="rhead reveal">
+          <div>
+            <span class="eyebrow" data-i18n="radar_eyebrow">Funding radar</span>
+            <h2 data-i18n="radar_h2">Every perp on Arcus and Lighter, read live.</h2>
+            <p class="lead" data-i18n="radar_lead">
+              Funding on both venues side by side, the widest gaps, and the stock markets that are shut. Refreshed every
+              minute.
+            </p>
+          </div>
+          <div class="rstats">
+            <div>
+              <b id="s_gap">38.1%</b
+              ><span><span data-i18n="stat_gap">widest gap</span> · <span id="s_gapsym">WLD</span></span>
+            </div>
+            <div>
+              <b id="s_longs">142<small> / 145</small></b
+              ><span data-i18n="stat_longs">readings where longs pay</span>
+            </div>
+            <div><b id="s_shut">41</b><span data-i18n="stat_shut">stock markets shut</span></div>
+          </div>
         </div>
-        <label class="rofield rolev"><span><span data-i18n="ro_lev">Leverage</span> <b id="ro_levv">10x</b></span><input type="range" id="ro_lev" min="1" max="13" step="1" value="10"></label>
+        <div class="tilt" id="boardTilt">
+          <div class="board" id="board">
+            <div class="scan" aria-hidden="true"></div>
+            <div class="bhead">
+              <span class="bt"
+                ><span class="dot"></span><span data-i18n="board_live">Live data</span> ·
+                <span id="b_time">06:50 UTC</span></span
+              >
+              <span class="legend"
+                ><i class="la"></i>Arcus <i class="ll"></i>Lighter <em data-i18n="board_unit">% per year</em></span
+              >
+            </div>
+            <div class="brow bth">
+              <span data-i18n="col_market">Market</span><span data-i18n="col_funding">Funding, Arcus vs Lighter</span
+              ><span class="r" data-i18n="col_gap">Gap</span><span class="r stcol" data-i18n="col_status">Status</span>
+            </div>
+            <div id="rows"></div>
+          </div>
+        </div>
+        <p class="bnote" data-i18n="board_note">
+          Funding is annualised. While a stock market is shut, Arcus funding is fixed and its price moves inside a band.
+          Information only, not financial advice.
+        </p>
       </div>
-      <div class="roout">
-        <div class="rokv"><span data-i18n="ro_out_band">Weekend band</span><b id="ro_band">±2.5% · ±5.0%</b></div>
-        <div class="rokv"><span data-i18n="ro_out_liq">Liquidation</span><b id="ro_liq">$179.09 · −4.4%</b></div>
-        <div class="rokv"><span data-i18n="ro_out_gap">Gap from Friday that reaches it</span><b id="ro_gap">−5.0%</b></div>
-        <div class="rokv"><span data-i18n="ro_out_hist">Weekends that opened that far against you</span><b id="ro_hist">0 / 32</b></div>
-        <p class="roverdict" id="ro_verdict">Only a widened band reaches it over the weekend. The reopen can reach it at once.</p>
-        <p class="rous" id="ro_us">All US shares: 6.1% of 1,744 weekends</p>
+    </section>
+
+    <section class="sec" id="hub">
+      <div class="wrap">
+        <div class="shead reveal">
+          <span class="eyebrow" data-i18n="hub_eyebrow">One agent</span>
+          <h2 data-i18n="hub_h2">Every app on the chain, from one chat.</h2>
+          <p class="lead" data-i18n="hub_lead">
+            Noctenna reads and routes through the apps traders already use. You talk to one agent.
+          </p>
+        </div>
+        <div class="hub" id="hubbox">
+          <div class="hubscene" id="hubscene">
+            <div class="plane">
+              <div class="ringwrap">
+                <div class="ring r1"></div>
+                <div class="ring r2"></div>
+                <div class="orbit" id="orbit"></div>
+              </div>
+            </div>
+            <div class="core"><img src="/favicon.svg" alt="" width="104" height="104" /></div>
+          </div>
+          <div class="chips-phone" id="nodesPhone"></div>
+          <div class="hubnote" data-i18n="hub_note">Not affiliated with any of these apps.</div>
+        </div>
       </div>
-      <p class="ronote" data-i18n="ro_calc_note">Estimate for one isolated position: liquidation ≈ 1 ÷ leverage − maintenance margin. Your real price depends on your account; in Noctenna, perps_reopen_check reads it. Information only, not financial advice.</p>
-    </div>
-  </div>
-  <div class="rostats">
-    <div class="reveal"><b id="ro_s1v">30%</b><span data-i18n="ro_s1">of US stocks opened Monday more than 2% from Friday's close</span></div>
-    <div class="reveal"><b id="ro_s2v">6%</b><span data-i18n="ro_s2">opened more than 5% away</span></div>
-    <div class="reveal"><b id="ro_live_n">41</b><span data-i18n="ro_s3">stock perps held inside a weekend band right now</span></div>
-  </div>
-  <p class="rosrc" id="ro_src">Gap history: Weekend Oracle's public data, 1,744 US stock-weekends from 28 Mar to 31 Oct 2026.</p>
-</div></section>
+    </section>
 
-<section class="sec" id="tools"><div class="wrap">
-  <div class="shead reveal"><span class="eyebrow" data-i18n="tools_eyebrow">Tools</span><h2 data-i18n="tools_h2">Every chain job, one chat.</h2><p class="lead" data-i18n="tools_lead">Ask in plain words. Everything that reads is live today; trading opens at the token launch.</p></div>
-  <div class="pgrid">
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/rocket.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">01</span><h3 data-i18n="c_launch_t">Launch check</h3><div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div><p data-i18n="c_launch_d">Paste any new launch and get the facts behind the chart, before you decide anything.</p></div>
-    </article>
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/dish.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">02</span><h3 data-i18n="c_fund_t">Funding radar</h3><div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div><p data-i18n="c_fund_d">Funding on Arcus and Lighter side by side, widest gaps first, refreshed every minute.</p>
-      <div class="fact"><span class="dot"></span><b id="f_gap">38.1%</b> <span data-i18n="stat_gap">widest gap</span> · <span id="f_gapsym">WLD</span></div></div>
-    </article>
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/moon.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">03</span><h3 data-i18n="c_weekend_t">Weekend gap</h3><div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div><p data-i18n="c_weekend_d">Wall Street is shut, the perps are not. See where each stock trades against its Friday close.</p>
-      <div class="fact"><span class="dot"></span><b id="f_shut">41</b> <span data-i18n="stat_shut">stock markets shut</span></div></div>
-    </article>
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/masts.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">04</span><h3 data-i18n="c_perps_t">Perps</h3><div class="chips"><span class="chip chip-live" data-i18n="data_live">Data: live</span><span class="chip chip-soon" data-i18n="trading_launch">Trading: at launch</span></div><p data-i18n="c_perps_d">Markets, books and positions on Arcus and Lighter. Orders with take-profit and stop-loss on Arcus.</p></div>
-    </article>
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/rail.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">05</span><h3 data-i18n="c_swap_t">Swaps</h3><div class="chips"><span class="chip chip-soon" data-i18n="at_launch">At launch</span></div><p data-i18n="c_swap_d">The best route across KyberSwap and Uniswap, exact approvals only, and a daily dollar limit you set.</p></div>
-    </article>
-    <article class="pcard reveal">
-      <div class="art" data-plate="/plates/bridge.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><span class="pnum">06</span><h3 data-i18n="c_bridge_t">Bridge</h3><div class="chips"><span class="chip chip-soon" data-i18n="at_launch">At launch</span></div><p data-i18n="c_bridge_d">Bridge from Robinhood Chain to other chains through Relay, with every fee shown before you say yes.</p></div>
-    </article>
-  </div>
-</div></section>
-
-<section class="sec radarsec" id="radar"><div class="wrap">
-  <div class="rhead reveal">
-    <div><span class="eyebrow" data-i18n="radar_eyebrow">Funding radar</span><h2 data-i18n="radar_h2">Every perp on Arcus and Lighter, read live.</h2><p class="lead" data-i18n="radar_lead">Funding on both venues side by side, the widest gaps, and the stock markets that are shut. Refreshed every minute.</p></div>
-    <div class="rstats">
-      <div><b id="s_gap">38.1%</b><span><span data-i18n="stat_gap">widest gap</span> · <span id="s_gapsym">WLD</span></span></div>
-      <div><b id="s_longs">142<small> / 145</small></b><span data-i18n="stat_longs">readings where longs pay</span></div>
-      <div><b id="s_shut">41</b><span data-i18n="stat_shut">stock markets shut</span></div>
-    </div>
-  </div>
-  <div class="tilt" id="boardTilt"><div class="board" id="board">
-    <div class="scan" aria-hidden="true"></div>
-    <div class="bhead">
-      <span class="bt"><span class="dot"></span><span data-i18n="board_live">Live data</span> · <span id="b_time">06:50 UTC</span></span>
-      <span class="legend"><i class="la"></i>Arcus <i class="ll"></i>Lighter <em data-i18n="board_unit">% per year</em></span>
-    </div>
-    <div class="brow bth"><span data-i18n="col_market">Market</span><span data-i18n="col_funding">Funding, Arcus vs Lighter</span><span class="r" data-i18n="col_gap">Gap</span><span class="r stcol" data-i18n="col_status">Status</span></div>
-    <div id="rows"></div>
-  </div></div>
-  <p class="bnote" data-i18n="board_note">Funding is annualised. While a stock market is shut, Arcus funding is fixed and its price moves inside a band. Information only, not financial advice.</p>
-</div></section>
-
-<section class="sec" id="hub"><div class="wrap">
-  <div class="shead reveal"><span class="eyebrow" data-i18n="hub_eyebrow">One agent</span><h2 data-i18n="hub_h2">Every app on the chain, from one chat.</h2><p class="lead" data-i18n="hub_lead">Noctenna reads and routes through the apps traders already use. You talk to one agent.</p></div>
-  <div class="hub" id="hubbox">
-    <div class="hubscene" id="hubscene">
-      <div class="plane">
-        <div class="ringwrap"><div class="ring r1"></div><div class="ring r2"></div><div class="orbit" id="orbit"></div></div>
+    <section class="sec" id="safety">
+      <div class="wrap safe">
+        <div class="vault" id="vault">
+          <div class="art" data-plate="/plates/vault.webp"><i class="ink v"></i><i class="ink l"></i></div>
+        </div>
+        <div class="safe-copy">
+          <div class="reveal">
+            <span class="eyebrow" data-i18n="safe_eyebrow">Safety</span>
+            <h2 data-i18n="safe_h2">Your keys never leave your computer.</h2>
+            <p class="lead" data-i18n="safe_lead">
+              Noctenna runs on your computer. It can prepare anything, and only you can send it.
+            </p>
+          </div>
+          <ul class="safe-list">
+            <li class="reveal">
+              <span class="sico"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="8" cy="15" r="4" />
+                  <path d="m11 12 9-9M16 7l3 3M14 9l2 2" /></svg
+              ></span>
+              <div>
+                <h4 data-i18n="sf1_t">A wallet in your keychain</h4>
+                <p data-i18n="sf1_d">No server ever sees a key, and no tool can read one.</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="sico"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5" /></svg
+              ></span>
+              <div>
+                <h4 data-i18n="sf2_t">Your yes for every trade</h4>
+                <p data-i18n="sf2_d">It prepares and shows the summary. Only your yes sends it.</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="sico"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M4 18h16" />
+                  <path d="M6 18V9M12 18V5M18 18v-6" /></svg
+              ></span>
+              <div>
+                <h4 data-i18n="sf3_t">Exact approvals, daily limit</h4>
+                <p data-i18n="sf3_d">Never unlimited allowances. You set the dollar limit.</p>
+              </div>
+            </li>
+            <li class="reveal">
+              <span class="sico"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" /></svg
+              ></span>
+              <div>
+                <h4 data-i18n="sf4_t">No shell, no files</h4>
+                <p data-i18n="sf4_d">Typed chain tools only. Token text is read as data, never as orders.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="core"><img src="/favicon.svg" alt="" width="104" height="104"></div>
+    </section>
+
+    <section class="sec" id="install">
+      <div class="wrap">
+        <div class="shead reveal">
+          <span class="eyebrow" data-i18n="inst_eyebrow">Install</span>
+          <h2 data-i18n="inst_h2">Up in your terminal in a minute.</h2>
+          <p class="lead" data-i18n="inst_lead">
+            Bring your own model: OpenAI, Anthropic, Google, OpenRouter, or a local model through Ollama.
+          </p>
+        </div>
+        <div class="plat">
+          <article class="pcard pbig reveal">
+            <div class="art" data-plate="/plates/hut.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <h3 data-i18n="pl_term_t">In your terminal</h3>
+              <div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div>
+              <p data-i18n="pl_term_d">
+                Chat with Noctenna in any terminal. Setup picks your model and makes a wallet on this computer.
+              </p>
+              <div class="cmd">
+                <code
+                  ><span class="p">$</span> npm i -g noctenna<br /><span class="p">$</span> noctenna setup<br /><span
+                    id="netline"
+                    ><span class="p">$</span> noctenna network testnet<br /></span
+                  ><span class="p">$</span> noctenna</code
+                ><button type="button" class="cpy" data-copy="npm i -g noctenna" aria-label="Copy">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="8" y="8" width="12" height="12" rx="2.5" />
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+          <article class="pcard pbig reveal">
+            <div class="art" data-plate="/plates/switch.webp"><i class="ink v"></i><i class="ink l"></i></div>
+            <div class="ptext">
+              <h3 data-i18n="pl_mcp_t">Inside your AI app</h3>
+              <div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div>
+              <p data-i18n="pl_mcp_d">The same tools over MCP for Claude Code, Codex, Cursor and Gemini CLI.</p>
+              <div class="cmd">
+                <code><span class="p">$</span> claude mcp add noctenna -- noctenna mcp</code
+                ><button
+                  type="button"
+                  class="cpy"
+                  data-copy="claude mcp add noctenna -- noctenna mcp"
+                  aria-label="Copy"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="8" y="8" width="12" height="12" rx="2.5" />
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="soonrow reveal">
+          <b data-i18n="pl_soon_t">Desktop and phone apps are on the way.</b>
+          <div class="apps">
+            <span>Mac</span><span>Windows</span><span>Linux</span><span>Android</span><span>iOS</span
+            ><span class="chip chip-soon" data-i18n="soon">Soon</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="faq">
+      <div class="wrap faq">
+        <div class="reveal">
+          <span class="eyebrow" data-i18n="faq_eyebrow">FAQ</span>
+          <h2 data-i18n="faq_h2">Questions, answered.</h2>
+          <p class="lead" data-i18n="faq_lead">Short answers. The README on GitHub has the long ones.</p>
+        </div>
+        <div class="qa">
+          <details open class="reveal">
+            <summary data-i18n="q1">Is it free?</summary>
+            <p data-i18n="a1">
+              Yes. Noctenna is open source under the MIT licence and adds no fee to any swap, trade or bridge. You pay
+              your own AI model and normal network fees.
+            </p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="q2">Where are my keys?</summary>
+            <p data-i18n="a2">
+              In your computer's keychain. No server ever sees them, no tool can read them, and exporting a key only
+              works in your own terminal.
+            </p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="q3">Can it trade without asking me?</summary>
+            <p data-i18n="a3">
+              No. It prepares every action and shows you the summary first. Nothing is sent until you say yes, and a
+              daily dollar limit you set caps what it can spend.
+            </p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="q4">Which AI models work?</summary>
+            <p data-i18n="a4">
+              Any key from OpenAI, Anthropic, Google or OpenRouter, any OpenAI-compatible endpoint, or a local model
+              through Ollama. You can also plug the same tools into Claude Code, Codex, Cursor or Gemini CLI.
+            </p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="q5">Is trading live?</summary>
+            <p data-i18n="a5">
+              On testnet, yes: practise every trade with test funds today. Everything that reads already runs on live
+              data: launch checks, funding, perps markets, balances and quotes. Trading with real funds opens at launch.
+            </p>
+          </details>
+          <details class="reveal">
+            <summary data-i18n="q6">Can I use perps where I live?</summary>
+            <p data-i18n="a6">
+              Arcus and Lighter are not available in the US, Canada, the UK or sanctioned regions. Noctenna reminds you
+              before the first perps action. Use them only where you may.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <div class="fcols">
+          <div>
+            <a class="brand fbrand" href="#top"
+              ><img class="ic" src="/favicon.svg" alt="" width="28" height="28" /><span>NOCTENNA</span></a
+            ><span class="fdesc" data-i18n="f_desc"
+              >An open-source AI agent for Robinhood Chain. Information only, not financial advice.</span
+            >
+          </div>
+          <div>
+            <h5 data-i18n="f_product">Product</h5>
+            <a href="#ask" data-i18n="nav_how">How it works</a><a href="#reopen" data-i18n="nav_reopen">Reopen watch</a
+            ><a href="#tools" data-i18n="nav_tools">Tools</a><a href="#radar" data-i18n="nav_radar">Radar</a
+            ><a href="#hub" data-i18n="nav_apps">Apps</a><a href="#safety" data-i18n="nav_safety">Safety</a
+            ><a href="#faq" data-i18n="nav_faq">FAQ</a>
+          </div>
+          <div>
+            <h5 data-i18n="f_get">Get it</h5>
+            <a href="#install" data-i18n="nav_install">Install</a><span data-i18n="f_desktop">Desktop apps · soon</span
+            ><span data-i18n="f_phone">Phone apps · soon</span>
+          </div>
+          <div>
+            <h5 data-i18n="f_follow">Follow</h5>
+            <a href="https://x.com/NoctennaAgent" target="_blank" rel="noopener">X · @NoctennaAgent</a
+            ><a href="https://github.com/noctenna-lab/noctenna" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+        <svg class="giant" viewBox="0 0 1200 170" aria-hidden="true">
+          <text
+            x="600"
+            y="150"
+            text-anchor="middle"
+            font-family="Satoshi, sans-serif"
+            font-weight="800"
+            font-size="196"
+            letter-spacing="14"
+            fill="none"
+            stroke="rgba(196,178,255,.18)"
+            stroke-width="1.4"
+          >
+            NOCTENNA
+          </text>
+        </svg>
+        <div class="fbase">
+          <span data-i18n="f_copy">© 2026 Noctenna · MIT licence</span
+          ><span data-i18n="f_affil">Your keys, your computer. Not affiliated with Robinhood.</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" hidden>
+      <img class="ic tic" src="/favicon.svg" alt="" width="34" height="34" />
+      <div>
+        <b data-i18n="toast_t">Noctenna agent is live</b
+        ><span data-i18n="toast_d">Practise trades on testnet now. Real trading opens at launch.</span>
+      </div>
+      <button type="button" aria-label="Close" id="toastx">×</button>
     </div>
-    <div class="chips-phone" id="nodesPhone"></div>
-    <div class="hubnote" data-i18n="hub_note">Not affiliated with any of these apps.</div>
-  </div>
-</div></section>
 
-<section class="sec" id="safety"><div class="wrap safe">
-  <div class="vault" id="vault"><div class="art" data-plate="/plates/vault.webp"><i class="ink v"></i><i class="ink l"></i></div></div>
-  <div class="safe-copy">
-    <div class="reveal"><span class="eyebrow" data-i18n="safe_eyebrow">Safety</span><h2 data-i18n="safe_h2">Your keys never leave your computer.</h2><p class="lead" data-i18n="safe_lead">Noctenna runs on your computer. It can prepare anything, and only you can send it.</p></div>
-    <ul class="safe-list">
-      <li class="reveal"><span class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3M14 9l2 2"/></svg></span><div><h4 data-i18n="sf1_t">A wallet in your keychain</h4><p data-i18n="sf1_d">No server ever sees a key, and no tool can read one.</p></div></li>
-      <li class="reveal"><span class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><h4 data-i18n="sf2_t">Your yes for every trade</h4><p data-i18n="sf2_d">It prepares and shows the summary. Only your yes sends it.</p></div></li>
-      <li class="reveal"><span class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18h16"/><path d="M6 18V9M12 18V5M18 18v-6"/></svg></span><div><h4 data-i18n="sf3_t">Exact approvals, daily limit</h4><p data-i18n="sf3_d">Never unlimited allowances. You set the dollar limit.</p></div></li>
-      <li class="reveal"><span class="sico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/></svg></span><div><h4 data-i18n="sf4_t">No shell, no files</h4><p data-i18n="sf4_d">Typed chain tools only. Token text is read as data, never as orders.</p></div></li>
-    </ul>
-  </div>
-</div></section>
-
-<section class="sec" id="install"><div class="wrap">
-  <div class="shead reveal"><span class="eyebrow" data-i18n="inst_eyebrow">Install</span><h2 data-i18n="inst_h2">Up in your terminal in a minute.</h2><p class="lead" data-i18n="inst_lead">Bring your own model: OpenAI, Anthropic, Google, OpenRouter, or a local model through Ollama.</p></div>
-  <div class="plat">
-    <article class="pcard pbig reveal">
-      <div class="art" data-plate="/plates/hut.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><h3 data-i18n="pl_term_t">In your terminal</h3><div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div><p data-i18n="pl_term_d">Chat with Noctenna in any terminal. Setup picks your model and makes a wallet on this computer.</p>
-        <div class="cmd"><code><span class="p">$</span> npm i -g noctenna<br><span class="p">$</span> noctenna setup<br><span class="p">$</span> noctenna</code><button type="button" class="cpy" data-copy="npm i -g noctenna" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div></div>
-    </article>
-    <article class="pcard pbig reveal">
-      <div class="art" data-plate="/plates/switch.webp"><i class="ink v"></i><i class="ink l"></i></div>
-      <div class="ptext"><h3 data-i18n="pl_mcp_t">Inside your AI app</h3><div class="chips"><span class="chip chip-live" data-i18n="live">Live</span></div><p data-i18n="pl_mcp_d">The same tools over MCP for Claude Code, Codex, Cursor and Gemini CLI.</p>
-        <div class="cmd"><code><span class="p">$</span> claude mcp add noctenna -- noctenna mcp</code><button type="button" class="cpy" data-copy="claude mcp add noctenna -- noctenna mcp" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div></div>
-    </article>
-  </div>
-  <div class="soonrow reveal">
-    <b data-i18n="pl_soon_t">Desktop and phone apps are on the way.</b>
-    <div class="apps"><span>Mac</span><span>Windows</span><span>Linux</span><span>Android</span><span>iOS</span><span class="chip chip-soon" data-i18n="soon">Soon</span></div>
-  </div>
-</div></section>
-
-<section class="sec" id="faq"><div class="wrap faq">
-  <div class="reveal"><span class="eyebrow" data-i18n="faq_eyebrow">FAQ</span><h2 data-i18n="faq_h2">Questions, answered.</h2><p class="lead" data-i18n="faq_lead">Short answers. The README on GitHub has the long ones.</p></div>
-  <div class="qa">
-    <details open class="reveal"><summary data-i18n="q1">Is it free?</summary><p data-i18n="a1">Yes. Noctenna is open source under the MIT licence and adds no fee to any swap, trade or bridge. You pay your own AI model and normal network fees.</p></details>
-    <details class="reveal"><summary data-i18n="q2">Where are my keys?</summary><p data-i18n="a2">In your computer's keychain. No server ever sees them, no tool can read them, and exporting a key only works in your own terminal.</p></details>
-    <details class="reveal"><summary data-i18n="q3">Can it trade without asking me?</summary><p data-i18n="a3">No. It prepares every action and shows you the summary first. Nothing is sent until you say yes, and a daily dollar limit you set caps what it can spend.</p></details>
-    <details class="reveal"><summary data-i18n="q4">Which AI models work?</summary><p data-i18n="a4">Any key from OpenAI, Anthropic, Google or OpenRouter, any OpenAI-compatible endpoint, or a local model through Ollama. You can also plug the same tools into Claude Code, Codex, Cursor or Gemini CLI.</p></details>
-    <details class="reveal"><summary data-i18n="q5">Is trading live?</summary><p data-i18n="a5">On testnet, yes: practise every trade with test funds today. Everything that reads already runs on live data: launch checks, funding, perps markets, balances and quotes. Trading with real funds opens at launch.</p></details>
-    <details class="reveal"><summary data-i18n="q6">Can I use perps where I live?</summary><p data-i18n="a6">Arcus and Lighter are not available in the US, Canada, the UK or sanctioned regions. Noctenna reminds you before the first perps action. Use them only where you may.</p></details>
-  </div>
-</div></section>
-
-<footer><div class="wrap">
-  <div class="fcols">
-    <div><a class="brand fbrand" href="#top"><img class="ic" src="/favicon.svg" alt="" width="28" height="28"><span>NOCTENNA</span></a><span class="fdesc" data-i18n="f_desc">An open-source AI agent for Robinhood Chain. Information only, not financial advice.</span></div>
-    <div><h5 data-i18n="f_product">Product</h5><a href="#ask" data-i18n="nav_how">How it works</a><a href="#reopen" data-i18n="nav_reopen">Reopen watch</a><a href="#tools" data-i18n="nav_tools">Tools</a><a href="#radar" data-i18n="nav_radar">Radar</a><a href="#hub" data-i18n="nav_apps">Apps</a><a href="#safety" data-i18n="nav_safety">Safety</a><a href="#faq" data-i18n="nav_faq">FAQ</a></div>
-    <div><h5 data-i18n="f_get">Get it</h5><a href="#install" data-i18n="nav_install">Install</a><span data-i18n="f_desktop">Desktop apps · soon</span><span data-i18n="f_phone">Phone apps · soon</span></div>
-    <div><h5 data-i18n="f_follow">Follow</h5><a href="https://x.com/NoctennaAgent" target="_blank" rel="noopener">X · @NoctennaAgent</a><a href="https://github.com/noctenna-lab/noctenna" target="_blank" rel="noopener">GitHub</a></div>
-  </div>
-  <svg class="giant" viewBox="0 0 1200 170" aria-hidden="true"><text x="600" y="150" text-anchor="middle" font-family="Satoshi, sans-serif" font-weight="800" font-size="196" letter-spacing="14" fill="none" stroke="rgba(196,178,255,.18)" stroke-width="1.4">NOCTENNA</text></svg>
-  <div class="fbase"><span data-i18n="f_copy">© 2026 Noctenna · MIT licence</span><span data-i18n="f_affil">Your keys, your computer. Not affiliated with Robinhood.</span></div>
-</div></footer>
-
-<div class="toast" id="toast" role="status" hidden><img class="ic tic" src="/favicon.svg" alt="" width="34" height="34"><div><b data-i18n="toast_t">Noctenna agent is live</b><span data-i18n="toast_d">Practise trades on testnet now. Real trading opens at launch.</span></div><button type="button" aria-label="Close" id="toastx">×</button></div>
-
-<script type="module" src="/src/main.js"></script>
-</body>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>

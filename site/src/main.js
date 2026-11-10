@@ -82,44 +82,69 @@ function applyLang(code) {
   store.set('lang', lang)
   relayout()
 }
-const openMenu = (open) => {
-  langmenu.hidden = !open
-  langbtn.setAttribute('aria-expanded', String(open))
-  if (open) langmenu.querySelector('[aria-selected="true"]')?.focus()
+// A button with a listbox under it: click or arrows to move, Enter to pick, Escape or a click elsewhere to close.
+function bindMenu(wrap, btn, menu, pick) {
+  const open = (on) => {
+    menu.hidden = !on
+    btn.setAttribute('aria-expanded', String(on))
+    if (on) menu.querySelector('[aria-selected="true"]')?.focus()
+  }
+  const choose = (li) => {
+    pick(li)
+    open(false)
+    btn.focus()
+  }
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation()
+    open(menu.hidden)
+  })
+  menu.addEventListener('click', (e) => {
+    const li = e.target.closest('li')
+    if (li) choose(li)
+  })
+  menu.addEventListener('keydown', (e) => {
+    const items = [...menu.children],
+      i = items.indexOf(document.activeElement)
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      items[(i + 1) % items.length].focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      items[(i - 1 + items.length) % items.length].focus()
+    } else if (e.key === 'Enter' && i >= 0) choose(items[i])
+    else if (e.key === 'Escape') {
+      open(false)
+      btn.focus()
+    }
+  })
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest(wrap)) open(false)
+  })
 }
-langbtn.addEventListener('click', (e) => {
-  e.stopPropagation()
-  openMenu(langmenu.hidden)
-})
-langmenu.addEventListener('click', (e) => {
-  const li = e.target.closest('li')
-  if (li) {
-    applyLang(li.dataset.lang)
-    openMenu(false)
-    langbtn.focus()
-  }
-})
-langmenu.addEventListener('keydown', (e) => {
-  const items = [...langmenu.children],
-    i = items.indexOf(document.activeElement)
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    items[(i + 1) % items.length].focus()
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    items[(i - 1 + items.length) % items.length].focus()
-  } else if (e.key === 'Enter' && i >= 0) {
-    applyLang(items[i].dataset.lang)
-    openMenu(false)
-    langbtn.focus()
-  } else if (e.key === 'Escape') {
-    openMenu(false)
-    langbtn.focus()
-  }
-})
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('#lang')) openMenu(false)
-})
+bindMenu('#lang', langbtn, langmenu, (li) => applyLang(li.dataset.lang))
+
+// ---------- network ----------
+// The chain the install steps point Noctenna at, as `noctenna network` does: testnet until trading opens on mainnet at
+// the launch. The board below reads mainnet markets either way, as the agent's radar and reopen tools do.
+const NETS = { mainnet: 4663, testnet: 46630 }
+const netmenu = $('#netmenu'),
+  netbtn = $('#netbtn')
+netmenu.innerHTML = Object.entries(NETS)
+  .map(
+    ([n, id]) =>
+      `<li role="option" tabindex="-1" data-net="${n}"><span><span class="ndot"></span>${n}<small>${id}</small></span><b class="tick">✓</b></li>`,
+  )
+  .join('')
+function applyNet(n) {
+  const net = NETS[n] ? n : 'testnet'
+  $('#netname').textContent = net
+  $('#netid').textContent = NETS[net]
+  $('#netline').hidden = net !== 'testnet'
+  for (const li of netmenu.children) li.setAttribute('aria-selected', String(li.dataset.net === net))
+  store.set('net', net)
+}
+applyNet(store.get('net') || 'testnet')
+bindMenu('#net', netbtn, netmenu, (li) => applyNet(li.dataset.net))
 
 // ---------- rotating word ----------
 const rot = $('#rot')

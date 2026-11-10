@@ -183,7 +183,7 @@ it('registers an API key: the wallet signs typed data, the private half lands in
   const signature = await privateKeyToAccount(ANVIL0).signTypedData(step.typedData as TypedDataDefinition)
   const out = (await step.then(signature)) as { apiKey: string; live: boolean }
   expect(out.live).toBe(true)
-  const body = JSON.parse(calls[0]!.body!)
+  const body = JSON.parse(calls.find((x) => x.url.endsWith('/createApiKey'))!.body!)
   expect(body.validUntil).toBeGreaterThan(Date.now() + 29 * 86_400_000)
   const sig = serializeSignature({ r: body.signature.r, s: body.signature.s, v: BigInt(body.signature.v) }) as Hex
   expect(await recoverTypedDataAddress({ ...(step.typedData as TypedDataDefinition), signature: sig })).toBe(
@@ -193,6 +193,17 @@ it('registers an API key: the wallet signs typed data, the private half lands in
   expect(stored.publicKey).toBe(body.publicKey)
   expect(bytesToHex(ed25519.getPublicKey(hexToBytes(stored.secretKey)))).toBe(body.publicKey)
   expect(JSON.stringify(out)).not.toContain(stored.secretKey)
+})
+
+it('keeps a live key rather than replacing it under previews that sign with it', async () => {
+  await storeKey()
+  const { ctx } = arcus((url) => (url.includes('/apiKeys?') ? { apiKeys: [{ apiKey: PK }] } : undefined))
+  await expect(tool('prepare_arcus_register_key').run(ctx, { days: 30, accountIndex: 0 })).rejects.toThrow(
+    /already has a live Arcus testnet key/,
+  )
+  // a key Arcus no longer lists may be replaced
+  const gone = arcus((url) => (url.includes('/apiKeys?') ? { apiKeys: [] } : undefined))
+  expect((await tool('prepare_arcus_register_key').run(gone.ctx, { days: 30, accountIndex: 0 })).steps).toHaveLength(1)
 })
 
 it('sets leverage with a scheme-2 signature over timestamp + action + sorted body', async () => {

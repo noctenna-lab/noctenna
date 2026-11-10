@@ -5,7 +5,7 @@ import { bytesToHex } from '@noble/curves/utils.js'
 import { encodeFunctionData, erc20Abi, isAddress, parseAbi, parseSignature, parseUnits, type Address } from 'viem'
 import { z } from 'zod'
 import type { Ctx, Module, Preview } from '../../core/types.js'
-import { secretSet } from '../../core/wallet.js'
+import { secretGet, secretSet } from '../../core/wallet.js'
 import { clean, json, plain, round, tool, u } from './api.js'
 import {
   ARCUS,
@@ -28,6 +28,7 @@ import {
   snapDown,
   tickAt,
   toUnits,
+  type ArcusKey,
   type ArcusMarket,
 } from './arcus.js'
 import { findLighterMarket, LIGHTER, lighterAccounts, lighterMarkets, lighterPctYear } from './lighter.js'
@@ -221,7 +222,7 @@ const account = tool({
 const registerKey = tool({
   name: 'prepare_arcus_register_key',
   description:
-    'Creates an Arcus API key on this computer and registers it for this wallet on the configured network (one EIP-712 signature, no gas). Needed once before any Arcus order; keys expire after 1-180 days.',
+    'Creates an Arcus API key on this computer and registers it for this wallet on the configured network (one EIP-712 signature, no gas). Needed once before any Arcus order; keys expire after 1-180 days. While this computer holds a live key for the wallet it refuses and says until when the key is valid: go straight to the order then.',
   kind: 'prepare',
   input: z.object({
     days: z.number().int().min(1).max(180).default(30),
@@ -230,6 +231,24 @@ const registerKey = tool({
   async run(ctx, { days, accountIndex }): Promise<Preview> {
     const address = own(ctx)
     const network = ctx.config.network
+    // A live key is kept. Replacing it cuts off the previews prepared with it (they sign with that key), which is how a
+    // model running register, leverage and order side by side had both of the last two refused as "Invalid API key".
+    const kept = await secretGet(keyName(network))
+      .then((raw) => (raw ? (JSON.parse(raw) as ArcusKey) : null))
+      .catch(() => null)
+    if (
+      kept?.address.toLowerCase() === address.toLowerCase() &&
+      kept.accountIndex === accountIndex &&
+      kept.validUntil > Date.now() + DAY
+    ) {
+      const live = await json<{ apiKeys: { apiKey: string }[] }>(ctx, `${ARCUS[network]}/apiKeys?address=${address}`)
+        .then((r) => r.apiKeys.some((k) => k.apiKey === kept.publicKey))
+        .catch(() => false)
+      if (live)
+        throw new Error(
+          `this wallet already has a live Arcus ${network} key for sub-account ${accountIndex}, valid until ${new Date(kept.validUntil).toISOString().slice(0, 16).replace('T', ' ')} UTC; no new key is needed`,
+        )
+    }
     const secretKey = ed25519.utils.randomSecretKey()
     const publicKey = bytesToHex(ed25519.getPublicKey(secretKey))
     // Arcus accepts [now+1d, now+180d] at execute time; a one-day key gets ten minutes of slack for the preview wait.

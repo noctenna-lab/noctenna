@@ -79,6 +79,15 @@ export function toUnits(value: string, unit: string): bigint {
   return v / t
 }
 
+/** The largest multiple of unit not above value, as a plain decimal: a size snapped to the grid never grows. */
+export function snapDown(value: string, unit: string): string {
+  if (!DECIMAL.test(value) || !DECIMAL.test(unit)) throw new Error(`"${value}" is not a plain decimal number`)
+  const d = Math.max(places(value), places(unit))
+  const t = parseUnits(unit, d)
+  if (t === 0n) throw new Error(`"${unit}" is not a step size`)
+  return formatUnits((parseUnits(value, d) / t) * t, d)
+}
+
 /** The tick that applies at a price: coarser bands only accept multiples of their own tick. */
 export function tickAt(m: ArcusMarket, price: number): string {
   return m.tickTiers?.find((t) => t.upToPrice === undefined || price < Number(t.upToPrice))?.tick ?? m.tickSize

@@ -189,9 +189,10 @@ async function setup() {
   if (!(await getAddress()))
     console.log('Next: `noctenna wallet create` (or `noctenna wallet import`), then `noctenna`.')
   else console.log('Next: `noctenna`.')
-  console.log(
-    `Mainnet reads only until the token launch. To practise trading now: \`noctenna network testnet\` (test ETH: ${FAUCET}, perps: ${ARCUS_TESTNET}).`,
-  )
+  if (!writesOpen(loadConfig().network))
+    console.log(
+      `Mainnet reads only until the token launch. To practise trading now: \`noctenna network testnet\` (test ETH: ${FAUCET}, perps: ${ARCUS_TESTNET}).`,
+    )
 }
 
 async function wallet(sub?: string) {

@@ -25,6 +25,7 @@ import {
   placePayload,
   sign,
   signedPost,
+  snapDown,
   tickAt,
   toUnits,
   type ArcusMarket,
@@ -301,7 +302,7 @@ const order = tool({
   input: z.object({
     market: marketArg,
     side: z.enum(['buy', 'sell']),
-    size: decimal.describe('size in the base asset, a multiple of the market step size'),
+    size: decimal.describe('size in the base asset; snapped down to the market step size'),
     type: z.enum(['market', 'limit']).default('market'),
     price: decimal.optional().describe('limit price in USD; required for a limit order'),
     reduceOnly: z.boolean().default(false),
@@ -320,16 +321,20 @@ const order = tool({
     const bps = Math.min(ctx.config.slippageBps, 900)
     if (!market && !a.price) throw new Error('a limit order needs a price')
     const price = market ? boundPrice(m, m.markPrice, bps, buy) : a.price!
-    const q = toUnits(a.size, m.stepSize)
+    // A size off the step (a model's $400 / mark = 2.3929827709978464 on a 0.0000001 step) is snapped down rather
+    // than refused: the preview shows the size that is sent, and it is never more than was asked.
+    const size = snapDown(a.size, m.stepSize)
+    if (!Number(size)) throw new Error(`${a.size} is below the ${m.stepSize} step size of ${name}`)
+    const q = toUnits(size, m.stepSize)
     // The signed integer always divides by the top-level tick; a coarser price band only limits which prices pass.
     const p = toUnits(price, m.tickSize)
     toUnits(price, tickAt(m, Number(price)))
-    const notional = Number(a.size) * Number(price)
+    const notional = Number(size) * Number(price)
     if (!a.reduceOnly && notional < Number(m.minOrderNotional ?? 5))
       throw new Error(
         `Arcus orders need at least $${m.minOrderNotional ?? 5} notional; this one is $${round(notional)}`,
       )
-    if (m.maxOrderSize && Number(a.size) > Number(m.maxOrderSize))
+    if (m.maxOrderSize && Number(size) > Number(m.maxOrderSize))
       throw new Error(`the largest order on ${name} is ${m.maxOrderSize}`)
 
     const mark = Number(m.markPrice)
@@ -367,7 +372,7 @@ const order = tool({
         address: key.address,
         accountIndex: key.accountIndex,
         marketId: m.marketId,
-        quantity: a.size,
+        quantity: size,
         goodTilTime: g.toString(),
         timestamp: ts,
       }
@@ -406,11 +411,11 @@ const order = tool({
     return {
       summary: [
         ...terms(),
-        `Arcus ${network}: ${a.side.toUpperCase()} ${a.size} ${name} ${market ? `at market, worst price $${price} (${bps / 100}% from mark $${m.markPrice})` : `limit at $${price}, resting until filled or cancelled`}${a.reduceOnly ? ', reduce-only' : ''}.`,
+        `Arcus ${network}: ${a.side.toUpperCase()} ${size} ${name} ${market ? `at market, worst price $${price} (${bps / 100}% from mark $${m.markPrice})` : `limit at $${price}, resting until filled or cancelled`}${a.reduceOnly ? ', reduce-only' : ''}.`,
         `Notional up to $${round(notional)}. Initial margin about $${margin}${leverage ? ` at ${round(1 / imf, 1)}x` : ' (leverage unknown, counted at 1x)'}; fee up to $${round(fee, 4)}.`,
         ...legs.map(
           (l) =>
-            `${l.kind === 'TAKE_PROFIT' ? 'Take profit' : 'Stop loss'}: when the mark reaches $${l.stop}, a reduce-only market order closes ${a.size}, worst price $${l.price}.`,
+            `${l.kind === 'TAKE_PROFIT' ? 'Take profit' : 'Stop loss'}: when the mark reaches $${l.stop}, a reduce-only market order closes ${size}, worst price $${l.price}.`,
         ),
         ...closedNote(m),
         'Arcus matches the order off-chain: it fills, rests or is rejected there; check perps_account afterwards.',
@@ -422,7 +427,7 @@ const order = tool({
         market: u(m.marketDisplayName),
         marketId: m.marketId,
         side: a.side,
-        size: a.size,
+        size,
         price,
         notionalUsd: round(notional),
         marginUsd: margin,

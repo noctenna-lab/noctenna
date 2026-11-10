@@ -11,6 +11,7 @@ import {
   cancelPayload,
   placePayload,
   sign,
+  snapDown,
   tickAt,
   toUnits,
   type ArcusMarket,
@@ -86,6 +87,9 @@ it('converts decimals to ticks exactly and snaps worst prices away from the trad
   expect(toUnits('0.001', '0.00000001')).toBe(100000n)
   expect(() => toUnits('0.0000000001', '0.00000001')).toThrow(/multiple/)
   expect(() => toUnits('1e3', '1')).toThrow(/decimal/)
+  expect(snapDown('2.3929827709978464', '0.0000001')).toBe('2.3929827')
+  expect(snapDown('5', '0.01')).toBe('5')
+  expect(snapDown('0.004', '0.01')).toBe('0')
   const btc = (fixture('perps', 'arcus_markets.json').markets as ArcusMarket[]).find((m) => m.marketId === 1)!
   expect(boundPrice(btc, '75826.1', 300, true)).toBe('78100.9') // 78100.883 up to the tick
   expect(boundPrice(btc, '75826.1', 300, false)).toBe('73551.3') // 73551.317 down to the tick

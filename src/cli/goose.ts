@@ -50,7 +50,7 @@ const ASSETS: Record<string, { file: string; sha256: string }> = {
 export const PROVIDERS = {
   google: {
     label: 'Google Gemini',
-    note: 'free key, no card',
+    note: 'free key with daily limits, no card',
     keyUrl: 'https://aistudio.google.com/apikey',
     goose: 'google',
     keyEnv: 'GOOGLE_API_KEY',
@@ -135,7 +135,8 @@ export async function listModels(
 
 // The order setup shows models in: free or cheap ones that call tools well first, newer versions before older
 const PREFER: Record<ProviderId, RegExp[]> = {
-  google: [/^gemini-[\d.]+-flash$/, /^gemini-[\d.]+-pro$/, /^gemini-[\d.]+-flash-lite$/, /^gemini-/],
+  // On a free Gemini key Flash allows 20 requests a day, which one agent session can spend; Flash-Lite allows far more
+  google: [/^gemini-[\d.]+-flash-lite$/, /^gemini-[\d.]+-flash$/, /^gemini-[\d.]+-pro$/, /^gemini-/],
   openrouter: [/^openrouter\/free$/, /:free$/, /^anthropic\/claude-sonnet/, /^google\/gemini-[\d.]+-flash$/],
   anthropic: [/^claude-sonnet/, /^claude-opus/, /^claude-haiku/],
   openai: [/^gpt-[\d.]+-mini$/, /^gpt-[\d.]+$/],

@@ -62,7 +62,7 @@ it('installs nothing when the Goose download does not match its pinned SHA-256',
   expect(existsSync(gooseBin())).toBe(false)
 })
 
-it('lists the models a key can use, newest Flash first, and tells a refused key apart', async () => {
+it('lists the models a key can use, Flash-Lite first for free keys, and tells a refused key apart', async () => {
   const methods = ['generateContent']
   const google = (async () =>
     Response.json({
@@ -77,10 +77,10 @@ it('lists the models a key can use, newest Flash first, and tells a refused key 
     })) as unknown as typeof fetch
   const ids = await listModels('google', 'key', undefined, google)
   expect(shortlist('google', ids)).toEqual([
+    'gemini-3.5-flash-lite',
     'gemini-3.8-flash',
     'gemini-3.6-flash',
     'gemini-3.6-pro',
-    'gemini-3.5-flash-lite',
   ])
   const refused = (async () => new Response('API key not valid', { status: 400 })) as unknown as typeof fetch
   await expect(listModels('google', 'wrong', undefined, refused)).rejects.toBeInstanceOf(KeyRefused)

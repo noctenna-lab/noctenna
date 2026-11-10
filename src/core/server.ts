@@ -77,7 +77,7 @@ const coreTools: Tool[] = [
       address: ctx.address,
       chainHead: await ctx.chain.getBlockNumber(),
       dailyLimitUsd: ctx.config.dailyLimitUsd,
-      spentTodayUsd: spentToday(),
+      spentTodayUsd: spentToday(ctx.config.network),
       slippageBps: ctx.config.slippageBps,
       note:
         ctx.config.network === 'testnet'

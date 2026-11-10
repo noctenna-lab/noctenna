@@ -119,7 +119,7 @@ These hosts have their own shell and file tools. Set them to ask before running 
 - **Local keys.** The wallet key and any API keys live in your OS keychain (macOS Keychain, Windows Credential Manager, Secret Service on Linux). No server sees them and no tool returns them. `noctenna wallet export` works only in an interactive terminal.
 - **Two steps for every change.** A `prepare` tool simulates the action and returns a plain-language summary: what happens, the amounts, the worst case after slippage, fees and approvals, and the network. Nothing is sent. Only `execute`, with that preview's id, within 2 minutes and once, sends it. `execute` checks the price and state again and refuses on any move beyond the slippage.
 - **Exact approvals.** Token approvals are for the exact amount, never unlimited.
-- **Daily limit.** A USD limit per UTC day (default $100), enforced inside `execute` and changed only with `noctenna limit` in a terminal. A perps order counts the initial margin it needs.
+- **Daily limit.** A USD limit per UTC day (default $100), enforced inside `execute` and changed only with `noctenna limit` in a terminal. A perps order counts the initial margin it needs. Testnet keeps its own count, so practice never uses up the allowance for real funds.
 - **No shell tools.** The `noctenna` agent has only Noctenna's typed tools. Goose's built-in extensions are off, and every call to `execute` stops for your approval.
 - **Untrusted text.** Token names, descriptions, links and venue messages reach the model marked as untrusted data, and the agent's rules tell it never to follow instructions found in them.
 - **No fees.** Noctenna adds no referral code and no fee to any swap, trade or bridge.

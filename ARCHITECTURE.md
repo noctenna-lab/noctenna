@@ -16,7 +16,7 @@ A model never signs anything. It reads with read tools, and to change anything i
 - **Config.** `network`, `dailyLimitUsd`, `slippageBps` and optional `rpcUrls.{testnet,mainnet}`, kept in the config directory (`NOCTENNA_CONFIG_DIR` moves it). `NOCTENNA_RPC_URL` overrides the active network's RPC.
 - **Chain client.** JSON-RPC with multicall batching and backoff. HTTP retries a 429 for every method, but a 5xx or a network error only for GET and HEAD, so a POST is never sent twice.
 - **Wallet.** The key lives in the OS keychain (`@napi-rs/keyring`, service `noctenna`). A file keystore (AES-256-GCM, scrypt) is used only with `NOCTENNA_KEYSTORE=file` and `NOCTENNA_KEYSTORE_PASSWORD`. Creating or importing refuses to replace an existing wallet. Other secrets are stored under a `secret:` prefix, so a secret lookup can never read the key.
-- **Daily limit.** USD per UTC day, kept in `spend.json` and counted before the first send. An unreadable ledger blocks writes instead of resetting to zero.
+- **Daily limit.** USD per UTC day, kept per network in `spend-mainnet.json` and `spend-testnet.json` and counted before the first send, so testnet practice never spends the allowance for real funds. An unreadable ledger blocks writes instead of resetting to zero.
 - **Untrusted text.** Values from the chain and third-party APIs, error messages included, reach the model as `{"untrusted_text": "..."}`, with control and bidi characters stripped and a 500-character cap. The agent's rules in `instructions.ts` tell it never to follow instructions found inside.
 
 ## Modules (`src/modules/`)

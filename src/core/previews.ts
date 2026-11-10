@@ -43,30 +43,34 @@ export function takePreview(previewId: string, network: Network, now = Date.now(
   return p.preview
 }
 
-// ---------------- daily limit: USD per UTC day, in the config dir ----------------
+// ---------------- daily limit: USD per UTC day and network, in the config dir ----------------
+// One ledger per network, so practice on testnet never uses up the day's allowance for real funds.
 const utcDay = (now: number) => new Date(now).toISOString().slice(0, 10)
-const spendPath = () => join(configDir(), 'spend.json')
+const spendFile = (network: Network) => `spend-${network}.json`
 
-export function spentToday(now = Date.now()): number {
+export function spentToday(network: Network, now = Date.now()): number {
   try {
-    const s = JSON.parse(readFileSync(spendPath(), 'utf8')) as { day: string; usd: number }
+    const s = JSON.parse(readFileSync(join(configDir(), spendFile(network)), 'utf8')) as { day: string; usd: number }
     return s.day === utcDay(now) && Number.isFinite(s.usd) ? s.usd : 0
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code === 'ENOENT') return 0
     // An unreadable ledger must not reset the limit to zero.
-    throw new Error('spend.json in the config dir is unreadable; fix or delete it to continue')
+    throw new Error(`${spendFile(network)} in the config dir is unreadable; fix or delete it to continue`)
   }
 }
 
-function addSpend(usd: number, now = Date.now()) {
+function addSpend(network: Network, usd: number, now = Date.now()) {
   mkdirSync(configDir(), { recursive: true, mode: 0o700 })
-  writeFileSync(spendPath(), JSON.stringify({ day: utcDay(now), usd: spentToday(now) + usd }), { mode: 0o600 })
+  const usdNow = spentToday(network, now) + usd
+  writeFileSync(join(configDir(), spendFile(network)), JSON.stringify({ day: utcDay(now), usd: usdNow }), {
+    mode: 0o600,
+  })
 }
 
 export function checkLimit(config: Config, usd: number, now = Date.now()) {
   if (!Number.isFinite(usd) || usd < 0)
     throw new Error('this action has no USD value, so the daily limit cannot be checked')
-  const spent = spentToday(now)
+  const spent = spentToday(config.network, now)
   if (spent + usd > config.dailyLimitUsd)
     throw new Error(
       `daily limit: $${spent.toFixed(2)} spent today (UTC) + $${usd.toFixed(2)} would pass the $${config.dailyLimitUsd} limit. The user can raise it in the terminal.`,
@@ -136,7 +140,7 @@ async function executeNow({ chain, config, account: getAccount, now = Date.now }
   let counted = false
   // Counted before the first thing leaves the machine, so a crash after a send cannot skip the limit.
   const count = () => {
-    if (!counted) addSpend(preview.usd, now())
+    if (!counted) addSpend(config.network, preview.usd, now())
     counted = true
   }
   for (const step of preview.steps) {

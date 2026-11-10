@@ -39,7 +39,8 @@ it('the daily limit counts per UTC day and fails closed on a broken ledger', asy
     { chain: chain(), config, account, now: () => day1 },
     storePreview(offchain(60, ran), 'testnet', day1).previewId,
   )
-  expect(spentToday(day1)).toBe(60)
+  expect(spentToday('testnet', day1)).toBe(60)
+  expect(spentToday('mainnet', day1)).toBe(0) // testnet practice leaves the real-funds allowance alone
   await expect(
     execute(
       { chain: chain(), config, account, now: () => day1 },
@@ -48,10 +49,10 @@ it('the daily limit counts per UTC day and fails closed on a broken ledger', asy
   ).rejects.toThrow(/daily limit/)
   expect(ran).toHaveLength(1)
   const day2 = day1 + 120_000
-  expect(spentToday(day2)).toBe(0)
+  expect(spentToday('testnet', day2)).toBe(0)
   expect(() => checkLimit(config, 100, day2)).not.toThrow()
   expect(() => checkLimit(config, Number.NaN, day2)).toThrow(/no USD value/)
-  writeFileSync(join(process.env.NOCTENNA_CONFIG_DIR!, 'spend.json'), '{oops')
+  writeFileSync(join(process.env.NOCTENNA_CONFIG_DIR!, 'spend-testnet.json'), '{oops')
   expect(() => checkLimit(config, 1, day2)).toThrow(/unreadable/)
 })
 
@@ -68,7 +69,7 @@ it('execute refuses an RPC on another chain, runs recheck first, and signs typed
   await expect(execute({ chain: chain(), config, account }, storePreview(moved, 'testnet').previewId)).rejects.toThrow(
     /price moved/,
   )
-  expect(spentToday()).toBe(0)
+  expect(spentToday('testnet')).toBe(0)
   let sig = ''
   const typed: Preview = {
     summary: [],

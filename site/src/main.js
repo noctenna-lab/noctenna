@@ -124,8 +124,8 @@ function bindMenu(wrap, btn, menu, pick) {
 bindMenu('#lang', langbtn, langmenu, (li) => applyLang(li.dataset.lang))
 
 // ---------- network ----------
-// The chain the install steps point Noctenna at, as `noctenna network` does: testnet until trading opens on mainnet at
-// the launch. The board below reads mainnet markets either way, as the agent's radar and reopen tools do.
+// The chain the install steps point Noctenna at, as `noctenna network` does: mainnet unless the visitor picks testnet.
+// The board below reads mainnet markets either way, as the agent's radar and reopen tools do.
 const NETS = { mainnet: 4663, testnet: 46630 }
 const netmenu = $('#netmenu'),
   netbtn = $('#netbtn')
@@ -136,14 +136,14 @@ netmenu.innerHTML = Object.entries(NETS)
   )
   .join('')
 function applyNet(n) {
-  const net = NETS[n] ? n : 'testnet'
+  const net = NETS[n] ? n : 'mainnet'
   $('#netname').textContent = net
   $('#netid').textContent = NETS[net]
   $('#netline').hidden = net !== 'testnet'
   for (const li of netmenu.children) li.setAttribute('aria-selected', String(li.dataset.net === net))
   store.set('net', net)
 }
-applyNet(store.get('net') || 'testnet')
+applyNet(store.get('net') || 'mainnet')
 bindMenu('#net', netbtn, netmenu, (li) => applyNet(li.dataset.net))
 
 // ---------- rotating word ----------

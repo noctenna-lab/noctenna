@@ -43,7 +43,7 @@ it('serves every tool with the instructions, and a prepare result becomes a prev
   await client.close()
 })
 
-it('before the launch a mainnet prepare answers locked and never runs; testnet still prepares', async () => {
+it('since the launch a mainnet prepare runs, as a testnet one does', async () => {
   delete process.env.NOCTENNA_PRELAUNCH_WRITES
   const at = (network: 'mainnet' | 'testnet') => async (): Promise<Ctx> => ({
     config: { network, rpcUrl: 'http://127.0.0.1:1', dailyLimitUsd: 100, slippageBps: 300 },
@@ -62,9 +62,6 @@ it('before the launch a mainnet prepare answers locked and never runs; testnet s
     await client.close()
     return JSON.parse((r.content as { text: string }[])[0]!.text)
   }
-  expect(await call('mainnet')).toMatchObject({
-    locked: true,
-    message: expect.stringMatching(/opens at the token launch/),
-  })
+  expect(await call('mainnet')).not.toHaveProperty('locked')
   expect(await call('testnet')).not.toHaveProperty('locked')
 })

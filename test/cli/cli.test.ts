@@ -111,7 +111,7 @@ it('refuses keys, limits and the network outside an interactive terminal', async
   await main(['wallet', 'address'])
   expect(log.mock.calls.map((c) => c[0])).toContain('No wallet yet: run `noctenna wallet create`.')
   expect(log.mock.calls[0]![0]).toMatch(
-    /^Noctenna .* on Robinhood Chain mainnet \(4663\), read-only until the token launch\. Information only, not financial advice\.$/,
+    /^Noctenna .* on Robinhood Chain mainnet \(4663\)\. Information only, not financial advice\.$/,
   )
   log.mockRestore()
 })

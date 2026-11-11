@@ -81,7 +81,7 @@ const coreTools: Tool[] = [
       slippageBps: ctx.config.slippageBps,
       note:
         ctx.config.network === 'testnet'
-          ? 'Testnet: test ETH and tokens have no value. Mainnet opens at the token launch; only the user can switch, in the terminal.'
+          ? 'Testnet: test ETH and tokens have no value. Only the user can switch to mainnet, in the terminal.'
           : undefined,
     }),
   },

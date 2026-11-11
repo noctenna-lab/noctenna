@@ -10,13 +10,13 @@ const DEPOSITORY = '0x4cd00e387622c35bddb9b4c962c136462338bc31' as Address
 const usdg = { symbol: 'USDG', address: USDG, decimals: 6 }
 const quote = () => fixture('bridge', 'relay_quote_usdg_base.json')
 
-it('on testnet says bridging opens at launch, and never calls Relay', async () => {
+it('on testnet says bridging runs on mainnet only, and never calls Relay', async () => {
   const { ctx, calls } = fakeCtx(() => undefined, 'testnet')
   expect(await tool('bridge_quote').run(ctx, { direction: 'out', chain: 'base', send: 'ETH', amount: '0.01' })).toEqual(
     { note: TESTNET_NOTE },
   )
   await expect(tool('prepare_bridge').run(ctx, { chain: 'base', send: 'ETH', amount: '0.01' })).rejects.toThrow(
-    /opens on mainnet/,
+    /mainnet only/,
   )
   expect(calls).toEqual([])
 })

@@ -102,7 +102,7 @@ describe('the KyberSwap transaction is checked before it is signed', () => {
   })
 })
 
-it('on testnet, swaps say they open on mainnet at launch', async () => {
+it('on testnet, swaps say they run on mainnet only', async () => {
   const ctx = {
     config: { network: 'testnet', rpcUrl: 'http://127.0.0.1:1', dailyLimitUsd: 200, slippageBps: 300 },
     address: null,

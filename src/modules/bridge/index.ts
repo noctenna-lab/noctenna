@@ -18,7 +18,7 @@ const RELAY = 'https://api.relay.link'
 const RH = 4663
 // Checked 8 Nov 2026: api.testnets.relay.link lists only Sepolia and Base Sepolia.
 export const TESTNET_NOTE =
-  'Bridging opens on mainnet at the launch: Relay does not serve Robinhood Chain testnet. Test ETH comes from the faucet at https://faucet.testnet.chain.robinhood.com.'
+  'Bridging runs on mainnet only: Relay does not serve Robinhood Chain testnet. Test ETH comes from the faucet at https://faucet.testnet.chain.robinhood.com.'
 
 interface Currency {
   symbol: string

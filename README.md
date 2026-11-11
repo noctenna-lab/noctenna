@@ -10,7 +10,7 @@ Noctenna is an open-source AI agent for Robinhood Chain. It swaps, trades new la
 
 **Information only, not financial advice.** Noctenna reports what the chain and the venues return. It never promises returns.
 
-**Read-only on mainnet until the token launch.** Noctenna runs on Robinhood Chain mainnet (chain 4663). Everything that reads works now: launch checks, funding across both venues, perps markets, balances and swap quotes. Trading on mainnet opens at the token launch; until then every write tool answers that it is locked. To practise trading now, switch to Robinhood Chain testnet (chain 46630) and Arcus testnet with `noctenna network testnet`.
+**Live on mainnet.** Noctenna runs on Robinhood Chain mainnet (chain 4663), where trades spend real funds, each one only after you approve its preview. To practise with test funds, switch to Robinhood Chain testnet (chain 46630) and Arcus testnet with `noctenna network testnet`.
 
 ## What you get
 
@@ -128,7 +128,7 @@ These hosts have their own shell and file tools. Set them to ask before running 
 
 Arcus and Lighter are not available in the US, Canada, the UK or sanctioned regions. The first perps action in each session says so before you approve it. Use them only where you may.
 
-Lighter is read-only in v1. Bridging into Robinhood Chain shows a quote; v1 bridges out only. Relay does not serve Robinhood Chain testnet, so bridging works on mainnet only, once trading opens at the launch.
+Lighter is read-only in v1. Bridging into Robinhood Chain shows a quote; v1 bridges out only. Relay does not serve Robinhood Chain testnet, so bridging works on mainnet only.
 
 ## Coming soon
 

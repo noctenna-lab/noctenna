@@ -1,7 +1,7 @@
 // User config at ~/.config/noctenna/config.json. NOCTENNA_CONFIG_DIR moves the whole directory (tests use a temp
 // dir). NOCTENNA_NETWORK and NOCTENNA_RPC_URL override the network and its RPC for one run without touching the file.
-// Mainnet is the default and read-only until the token launch (launch.ts); testnet takes writes for practice. Only the
-// terminal switches networks (setNetwork), never a tool.
+// Mainnet is the default (launch.ts can shut its writes); testnet takes writes for practice. Only the terminal
+// switches networks (setNetwork), never a tool.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join } from 'node:path'

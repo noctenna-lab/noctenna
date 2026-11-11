@@ -1,5 +1,5 @@
 // Swaps any token pair on mainnet: KyberSwap first, then a graduated Pons token's own Uniswap v4 pool directly.
-// Testnet has neither (no Kyber, no Universal Router), so swaps say plainly that they open on mainnet at launch.
+// Testnet has neither (no Kyber, no Universal Router), so swaps there say plainly that they run on mainnet only.
 import { encodeFunctionData, erc20Abi, isAddressEqual, type Address } from 'viem'
 import { z } from 'zod'
 import type { Ctx, Module, Preview, Step, Tool } from '../../core/types.js'
@@ -21,7 +21,7 @@ import { usdValue } from './price.js'
 import { quotePonsPool } from './uniswap.js'
 
 export const SWAPS_ON_MAINNET =
-  'Swaps open on mainnet at the token launch. Testnet has no swap router (no Universal Router, and KyberSwap does not serve it), so there is nothing to route here yet.'
+  'Swaps run on mainnet only. Testnet has no swap router (no Universal Router, and KyberSwap does not serve it), so there is nothing to route here.'
 
 export interface SwapRequest {
   tokenIn: TokenRef

@@ -95,13 +95,3 @@ it('execute refuses an RPC on another chain, runs recheck first, and signs typed
   })
   expect(sig).toMatch(/^0x[0-9a-f]{130}$/)
 })
-
-it('execute refuses a mainnet write before the launch, even with a stored preview', async () => {
-  delete process.env.NOCTENNA_PRELAUNCH_WRITES
-  const ran: unknown[] = []
-  const main: Config = { ...config, network: 'mainnet' }
-  await expect(
-    execute({ chain: chain(4663), config: main, account }, storePreview(offchain(1, ran), 'mainnet').previewId),
-  ).rejects.toThrow(/opens at the token launch/)
-  expect(ran).toHaveLength(0)
-})

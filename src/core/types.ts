@@ -18,7 +18,7 @@ export interface Ctx {
 export type Network = 'testnet' | 'mainnet'
 
 export interface Config {
-  /** Testnet until the token launch. Only the terminal can change it (`noctenna network`), never a tool. */
+  /** Mainnet by default. Only the terminal can change it (`noctenna network`), never a tool. */
   network: Network
   /** The configured network's RPC. */
   rpcUrl: string

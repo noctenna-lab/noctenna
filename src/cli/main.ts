@@ -232,8 +232,8 @@ async function network(arg?: string) {
   terminalOnly('network')
   if (arg !== 'testnet' && arg !== 'mainnet') throw new Error('usage: noctenna network testnet | mainnet')
   if (arg === 'mainnet') {
-    console.log(`Mainnet moves real money: once trading opens at the token launch, swaps, Pons trades, perps orders and
-bridges spend real funds, and Noctenna cannot undo a sent transaction. Until then mainnet is read-only.`)
+    console.log(`Mainnet moves real money: swaps, Pons trades, perps orders and bridges spend real funds, and Noctenna
+cannot undo a sent transaction.`)
     if ((await ask('Type "yes" to switch to mainnet: ')) !== 'yes') return console.log('Still on testnet.')
   }
   const c = setNetwork(arg)

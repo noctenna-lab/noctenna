@@ -349,6 +349,34 @@ body::before {
   flex-wrap: wrap;
   margin-top: 30px;
 }
+.ca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  margin-top: 16px;
+  padding: 9px 13px;
+  border-radius: 10px;
+  background: rgba(10, 7, 21, 0.55);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 500 13px/1.2 var(--mono);
+  cursor: pointer;
+}
+.ca b {
+  flex: none;
+  color: var(--lilac);
+  font-weight: 700;
+}
+.ca .code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ca:hover {
+  border-color: rgba(196, 178, 255, 0.3);
+  color: var(--text);
+}
 .works {
   display: flex;
   align-items: center;

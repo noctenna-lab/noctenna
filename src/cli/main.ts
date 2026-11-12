@@ -5,11 +5,11 @@ import { realpathSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { createInterface } from 'node:readline/promises'
 import { fileURLToPath } from 'node:url'
-import type { Hex } from 'viem'
+import { getAddress as checksum, isAddress, type Hex } from 'viem'
 import { NETWORKS } from '../core/chain.js'
 import { loadConfig, saveConfig, setNetwork } from '../core/config.js'
 import { writesOpen } from '../core/launch.js'
-import { startServer } from '../core/server.js'
+import { buildCtx, startServer } from '../core/server.js'
 import type { Network } from '../core/types.js'
 import { createWallet, exportKey, getAddress, importWallet, secretDelete, secretSet } from '../core/wallet.js'
 import {
@@ -25,6 +25,9 @@ import {
   writeGooseConfig,
   type ProviderId,
 } from './goose.js'
+import { launchCheck } from '../modules/intel/index.js'
+import { snapshot } from '../modules/radar/index.js'
+import { checkText, colors, radarText } from './report.js'
 
 const { version } = createRequire(import.meta.url)('../../package.json') as { version: string }
 const FAUCET = 'https://faucet.testnet.chain.robinhood.com'
@@ -34,6 +37,8 @@ const USAGE = `noctenna ${version}: an AI agent for Robinhood Chain. Information
 
   noctenna                    start the agent in this terminal (runs setup first if needed)
   noctenna setup              choose the model provider and store its API key
+  noctenna radar              funding on Arcus and Lighter side by side (no wallet or setup needed)
+  noctenna check <token>      a launch check for any launch token (no wallet or setup needed)
   noctenna mcp                serve the same tools over stdio, for Claude Code, Codex, Cursor and other MCP hosts
   noctenna wallet create      make a new wallet on this computer
   noctenna wallet import      import a private key (hidden prompt)
@@ -247,6 +252,15 @@ export async function main([cmd, ...rest]: string[]) {
   if (cmd === 'mcp') return startServer()
   if (cmd === '--version' || cmd === '-v') return console.log(version)
   if (cmd === 'help' || cmd === '--help' || cmd === '-h') return console.log(USAGE)
+  // Read-only: no wallet, no model, no setup, so anyone can try them with npx.
+  const paint = () =>
+    colors(Boolean(process.stdout.isTTY) && !process.env.NO_COLOR, /truecolor|24bit/i.test(process.env.COLORTERM ?? ''))
+  if (cmd === 'radar') return console.log(radarText(await snapshot(await buildCtx(false)), paint()))
+  if (cmd === 'check') {
+    if (!rest[0] || !isAddress(rest[0], { strict: false })) throw new Error('usage: noctenna check <token address>')
+    console.error(paint().dim(`Reading mainnet for ${rest[0]}…`))
+    return console.log(checkText(await launchCheck(await buildCtx(false), checksum(rest[0])), paint()))
+  }
   if (cmd === undefined) {
     terminalOnly('the agent')
     const art = banner(loadConfig().network)

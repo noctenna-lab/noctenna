@@ -52,9 +52,10 @@ const client = (url: string, network: Network) => {
 const http = createHttp()
 
 // Built per call, so a limit or network the user changes in the terminal applies at once.
-export async function buildCtx(): Promise<Ctx> {
+// withWallet false skips the keychain, for the read-only commands that need no wallet.
+export async function buildCtx(withWallet = true): Promise<Ctx> {
   const config = loadConfig()
-  const address = await getAddress().catch(() => null)
+  const address = withWallet ? await getAddress().catch(() => null) : null
   return {
     config,
     address,

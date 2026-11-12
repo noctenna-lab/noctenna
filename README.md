@@ -17,6 +17,7 @@ Noctenna is an open-source AI agent for Robinhood Chain. It swaps, trades new la
 - **`noctenna`**: a terminal agent. It runs [Goose](https://github.com/aaif-goose/goose) (Apache-2.0) on a profile of its own, with the Noctenna tools as its only extension: no shell, file, browser or computer-control tools.
 - **`noctenna mcp`**: the same tools over stdio for Claude Code, Codex, Cursor, Gemini CLI and any other MCP host.
 - **`noctenna wallet`**: create, import, show the address, export (export only in an interactive terminal).
+- **`noctenna radar`** and **`noctenna check <token>`**: the funding radar and the launch check as tables in your terminal. No wallet, no model and no setup, so `npx noctenna radar` works on its own.
 
 You bring the model: an API key for Google Gemini, OpenRouter, Anthropic, OpenAI or any OpenAI-compatible endpoint, or a local model through Ollama. A free Gemini key ([aistudio.google.com/apikey](https://aistudio.google.com/apikey), no card) is enough to start, and OpenRouter has free models too. Noctenna never hosts, resells or proxies models.
 
@@ -25,7 +26,7 @@ You bring the model: an API key for Google Gemini, OpenRouter, Anthropic, OpenAI
 | Wallet | address, ETH and token balances | send ETH or a token |
 | Swap | quotes on Robinhood Chain | swap (mainnet) |
 | Launches | new launches, one token, curve quote | buy, sell on the curve |
-| Launch check | dev buy, bundles, first-5-minute buyers, snipers, creator tax, fees, graduation, the deployer's other launches | none |
+| Launch check | dev buy and what its wallet holds now, bundles, first-5-minute buyers, snipers, creator tax, fees, graduation, the deployer's other launches | none |
 | Perps | markets, funding, open interest, order books, positions, orders, fills on Arcus; markets, funding, open interest, order books, positions on Lighter; **reopen watch** for stock perps (the weekend band, your liquidation price, the gap that reaches it, and how many past weekends opened that far) | Arcus: register an API key, market and limit orders with take-profit and stop-loss, cancel, leverage, and test collateral on testnet. Lighter is read-only in v1 |
 | Radar | funding on Arcus and Lighter side by side, the widest gaps, closed stock markets and their fixed funding, the weekend gap against the last settlement | none |
 | Bridge | Relay quotes into and out of Robinhood Chain for ETH and dollars | bridge out (mainnet) |
@@ -36,6 +37,13 @@ Node.js 22.12 or newer.
 
 ```sh
 npm install -g noctenna
+```
+
+Or try it without installing anything:
+
+```sh
+npx noctenna radar                 # funding on Arcus and Lighter, the widest gaps first
+npx noctenna check <token address> # the launch check for any launch token
 ```
 
 To build it from source instead, or to work on the code, see [CONTRIBUTING.md](CONTRIBUTING.md).
